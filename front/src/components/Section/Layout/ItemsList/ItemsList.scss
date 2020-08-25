@@ -1,0 +1,40 @@
+@import "../../../../assets/mixins.scss";
+@import "../../../../assets/variables.scss";
+
+.itemsList {
+  @include minResponsive(640px) {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 10px 0;
+
+    .imgLayout {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      height: auto;
+      margin-bottom: 5rem;
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .imgContainer {
+        padding: 5px 0;
+        width: 45%;
+        height: auto;
+        max-width: stretch;
+
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+
+      .imgText {
+        width: 45%;
+        height: auto;
+        text-align: left;
+      }
+    }
+  }
+}

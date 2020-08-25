@@ -1,0 +1,60 @@
+@import "../../../assets/mixins.scss";
+@import "../../../assets/variables.scss";
+
+.container {
+  width: 20rem;
+
+  .positionSticky {
+    position: sticky;
+    top: 0;
+  }
+  @include maxResponsive(1023px) {
+    display: none;
+  }
+
+  a {
+    color: unset;
+  }
+
+  .section {
+    font-size: 1.1rem;
+    line-height: 2rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .title {
+    font-weight: 600;
+    transition: all 0.1s ease;
+
+    &:hover {
+      border-bottom: solid 2px $dark-color;
+    }
+  }
+
+  // .titleActive {
+  //   border-bottom: solid 2px $dark-color;
+  // }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .topic {
+    padding-left: 2rem;
+    opacity: 0.6;
+    transition: all 0.1s ease;
+
+    &:hover {
+      opacity: 1;
+      font-size: larger;
+    }
+  }
+  // .topicActive {
+  //   opacity: 1;
+  //   font-size: larger;
+  // }
+}

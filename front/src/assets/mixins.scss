@@ -1,0 +1,53 @@
+@mixin minResponsive($pixels) {
+  @media screen and (min-width: $pixels) {
+    @content;
+  }
+}
+
+@mixin maxResponsive($pixels) {
+  @media screen and (max-width: $pixels) {
+    @content;
+  }
+}
+
+@mixin responsiveInterval($minPix, $maxPix) {
+  @media screen and (min-width: $minPix) and (max-width: $maxPix) {
+    @content;
+  }
+}
+
+@mixin title($font-size: 2.8rem) {
+  font-size: $font-size;
+  line-height: 1.2;
+  text-transform: capitalize;
+  // letter-spacing: 3px;
+}
+
+@mixin subtitle($bottom: 1rem) {
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding-bottom: $bottom;
+}
+
+@mixin customLink {
+  &:active {
+    color: rgba(0, 0, 0, 0.3);
+    opacity: 0.6;
+  }
+  &:hover {
+    opacity: 0.6;
+    // color: rgba(0, 0, 0, 0.2);
+  }
+}
+
+@mixin defaultBtn() {
+  button {
+    text-decoration: none;
+    border: none;
+    background: unset;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    @content;
+  }
+}

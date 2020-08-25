@@ -1,0 +1,10 @@
+@import "../../../assets/mixins.scss";
+@import "../../../assets/variables.scss";
+
+.container {
+  width: 100%;
+
+  @include minResponsive(1024px) {
+    margin-left: 1rem;
+  }
+}

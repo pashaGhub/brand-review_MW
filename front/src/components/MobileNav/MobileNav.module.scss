@@ -1,0 +1,59 @@
+@import "../../assets/mixins.scss";
+@import "../../assets/variables.scss";
+
+.mobileNav {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-out;
+  background: #f5f8ff;
+  margin-top: $header-height;
+  padding: $mobile-padding;
+  padding-top: 1rem;
+  top: 0;
+  z-index: 200;
+
+  @include minResponsive(1024px) {
+    display: none;
+  }
+
+  a {
+    color: unset;
+  }
+
+  .section {
+    font-size: 1.1rem;
+    line-height: 2rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .title {
+    font-weight: 600;
+  }
+
+  .titleActive {
+    border-bottom: solid 2px $dark-color;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .topic {
+    padding-left: 2rem;
+    opacity: 0.6;
+  }
+  .topicActive {
+    opacity: 1;
+    font-size: larger;
+  }
+}
+
+.open {
+  transform: translateX(0);
+}

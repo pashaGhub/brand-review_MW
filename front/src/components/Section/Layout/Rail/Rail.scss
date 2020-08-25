@@ -1,0 +1,35 @@
+@import "../../../../assets/mixins.scss";
+@import "../../../../assets/variables.scss";
+
+.rail {
+  @include minResponsive(640px) {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 10px 0;
+
+    .imgLayout {
+      width: 45%;
+      height: auto;
+      margin-bottom: 2rem;
+
+      @include minResponsive(1024px) {
+        width: 28%;
+        padding-right: 5%;
+      }
+
+      img {
+        padding: 5px 0;
+        width: 100%;
+        height: auto;
+        max-width: stretch;
+      }
+
+      .imgText {
+        width: 100%;
+        height: auto;
+        text-align: left;
+      }
+    }
+  }
+}

@@ -1,0 +1,48 @@
+@import "../../../../assets/mixins.scss";
+@import "../../../../assets/variables.scss";
+
+.window {
+  @include minResponsive(640px) {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 10px 0;
+
+    @include minResponsive(1024px) {
+      justify-content: space-between;
+    }
+
+    .imgLayout {
+      width: 100%;
+      margin-bottom: 2rem;
+
+      @include minResponsive(1024px) {
+        width: 40%;
+        height: auto;
+      }
+
+      img {
+        padding: 5px 0;
+        width: 100%;
+        height: auto;
+        max-width: stretch;
+      }
+
+      .imgText {
+        width: 100%;
+        height: auto;
+        text-align: left;
+
+        @include minResponsive(1024px) {
+          padding: 0;
+        }
+      }
+    }
+
+    @include minResponsive(1024px) {
+      .marginBot {
+        margin-bottom: 5rem;
+      }
+    }
+  }
+}

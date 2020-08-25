@@ -1,0 +1,56 @@
+@import "../../../../assets/mixins.scss";
+@import "../../../../assets/variables.scss";
+
+.color {
+  @include minResponsive(640px) {
+    padding: 10px 0;
+  }
+  .imgLayout {
+    display: flex;
+    width: 100%;
+    height: auto;
+    margin-bottom: 3rem;
+
+    @include minResponsive(640px) {
+      margin-bottom: 2rem;
+    }
+
+    img {
+      padding: 0;
+      width: 5rem;
+      height: 10rem;
+      max-width: stretch;
+      transition: all 0.3s ease-out;
+
+      @include minResponsive(640px) {
+        padding: 5px 0;
+      }
+
+      &:hover {
+        width: 50%;
+        @include minResponsive(425px) {
+          width: 60%;
+        }
+        @include minResponsive(640px) {
+          width: 75%;
+        }
+        @include minResponsive(900px) {
+          width: 80%;
+        }
+
+        @include minResponsive(1440px) {
+          width: 85%;
+        }
+      }
+    }
+
+    .textContainer {
+      margin-left: 1rem;
+      .imgText {
+        width: 100%;
+        height: auto;
+        text-align: left;
+      }
+    }
+  }
+}

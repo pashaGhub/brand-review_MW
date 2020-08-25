@@ -1,0 +1,37 @@
+@import "../../assets/mixins.scss";
+@import "../../assets/variables.scss";
+
+.footer {
+  background-color: $dark-color;
+  height: $footer-height;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  color: white;
+  box-shadow: 0 -2px 3px rgba(0, 0, 0, 0.15);
+  padding: $mobile-padding;
+
+  .container {
+    align-content: center;
+    max-width: $max-width;
+    height: 100%;
+    margin: auto;
+    padding: 1rem 0 2rem;
+    text-align: center;
+
+    p {
+      margin-bottom: 0.5rem;
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      a {
+        color: #60d3f3;
+        transition: all 0.3s ease;
+        &:hover {
+          color: #93e6fd;
+        }
+      }
+    }
+  }
+}

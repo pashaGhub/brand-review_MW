@@ -1,0 +1,39 @@
+@import "../../assets/variables.scss";
+@import "../../assets/mixins.scss";
+
+.burger {
+  width: 2.5rem;
+  height: $header-height;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+
+  .container {
+    display: flex;
+    width: 2.5rem;
+    height: 1rem;
+    flex-direction: column;
+    justify-content: space-around;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+
+    .burgerLine {
+      width: 100%;
+      height: 2px;
+      background: white;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .lineTop {
+      transform: rotate(45deg) translateX(0.4rem);
+    }
+    .lineBot {
+      transform: rotate(-45deg) translateX(0.4rem);
+    }
+  }
+  @include minResponsive(1024px) {
+    display: none;
+  }
+}

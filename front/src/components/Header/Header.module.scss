@@ -1,0 +1,42 @@
+@import "../../assets/mixins.scss";
+@import "../../assets/variables.scss";
+
+.header {
+  background-color: $dark-color;
+  height: $header-height;
+  position: sticky;
+  top: 0;
+  color: white;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+  padding: $mobile-padding;
+  z-index: 100;
+
+  @include minResponsive(1024px) {
+    position: unset;
+  }
+
+  .container {
+    display: flex;
+    max-width: $max-width;
+    height: 100%;
+    margin: auto;
+    justify-content: space-between;
+
+    h1 {
+      line-height: $header-height;
+      font-size: 2rem;
+
+      @include minResponsive(1024px) {
+        font-size: 3.5rem;
+        line-height: $header-height + 2;
+      }
+    }
+  }
+
+  @include minResponsive(1024px) {
+    height: $header-height + 2;
+  }
+  @include minResponsive(1441px) {
+    padding: 0;
+  }
+}
