@@ -1,0 +1,5 @@
+{
+  "port": 5000,
+  "jwtSecret": "brand page MW",
+  "mongoUri": "mongodb+srv://admin:mw12345@cluster0.ehuae.azure.mongodb.net/app?retryWrites=true&w=majority"
+}

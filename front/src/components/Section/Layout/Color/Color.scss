@@ -20,7 +20,7 @@
       width: 5rem;
       height: 10rem;
       max-width: stretch;
-      transition: all 0.3s ease-out;
+      transition: all 0.6s ease-out;
 
       @include minResponsive(640px) {
         padding: 5px 0;
