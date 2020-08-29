@@ -26,11 +26,7 @@
       }
 
       a {
-        color: #60d3f3;
-        transition: all 0.3s ease;
-        &:hover {
-          color: #93e6fd;
-        }
+        @include customLink();
       }
     }
   }

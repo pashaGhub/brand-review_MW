@@ -1,0 +1,53 @@
+@import "../../../assets/mixins.scss";
+@import "../../../assets/variables.scss";
+
+.container {
+  @include defaultContainerWidth() {
+  }
+
+  .panel {
+    width: 100%;
+    transition: all 0.3s ease;
+
+    @include minResponsive(1024px) {
+      margin-left: 1rem;
+    }
+
+    .section {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      border: solid 2px #28b0d6;
+      border-radius: 5px;
+      line-height: 3rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 0.5rem;
+      transition: all 0.2s ease;
+
+      &:not(:last-of-type) {
+        margin-bottom: 1rem;
+      }
+
+      .deleteBtn {
+        @include defaultBtn();
+        background: $danger-color;
+        color: #fff;
+        border-radius: 5px;
+        height: 2.3rem;
+        margin: auto 0;
+        padding: 0.5rem;
+        transition: all 0.3s ease;
+        letter-spacing: 2px;
+
+        &:hover {
+          background: #c82333;
+        }
+      }
+    }
+
+    .current {
+      background: #28b0d65b;
+    }
+  }
+}

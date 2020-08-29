@@ -4,6 +4,22 @@ export const AppContext = createContext<any>(Boolean);
 
 export function ContextProvider(props: any): JSX.Element {
   const [mobNav, setMobNav] = useState<boolean>(false);
+  const [location, setLocation] = useState<string>(""); //used to select right mobile navigation. 1.public 2.none 3.admin
+
+  //setting current location
+  const handleLocation = (props: any) => {
+    const currentLocation = props.pathname.split("/")[1];
+
+    switch (currentLocation) {
+      case "admin":
+        return setLocation("admin");
+      case "login":
+      case "register":
+        return setLocation("none");
+      default:
+        return setLocation("public");
+    }
+  };
 
   //Mobile nav toggle functionality
   const toggleMobNav = () => {
@@ -15,7 +31,9 @@ export function ContextProvider(props: any): JSX.Element {
   };
 
   return (
-    <AppContext.Provider value={{ mobNav, toggleMobNav, closeMobNav }}>
+    <AppContext.Provider
+      value={{ mobNav, toggleMobNav, closeMobNav, location, handleLocation }}
+    >
       {props.children}
     </AppContext.Provider>
   );

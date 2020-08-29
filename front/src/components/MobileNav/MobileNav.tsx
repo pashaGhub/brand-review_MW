@@ -4,7 +4,7 @@ import { AppContext } from "../../context/AppContext";
 import s from "./MobileNav.module.scss";
 
 export const MobileNav: React.FC = () => {
-  const { mobNav, closeMobNav } = useContext(AppContext);
+  const { mobNav } = useContext(AppContext);
 
   let navStyle = `${s.mobileNav}`;
   if (mobNav) {

@@ -28,8 +28,10 @@
       background: #fff;
       padding-right: 1rem;
 
-      @include defaultBtn() {
-        margin-left: 0.5rem;
+      button {
+        @include defaultBtn() {
+          margin-left: 0.5rem;
+        }
       }
     }
 

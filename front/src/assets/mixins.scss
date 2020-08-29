@@ -16,6 +16,20 @@
   }
 }
 
+@mixin defaultContainerWidth() {
+  display: flex;
+  max-width: $max-width;
+  margin: auto;
+  padding: $mobile-padding;
+  padding-top: 1rem;
+  padding-bottom: ($footer-height + 2rem);
+
+  @include minResponsive(1440px) {
+    padding: 1rem 0 ($footer-height + 2rem);
+  }
+  @content;
+}
+
 @mixin title($font-size: 2.8rem) {
   font-size: $font-size;
   line-height: 1.2;
@@ -29,25 +43,21 @@
   padding-bottom: $bottom;
 }
 
-@mixin customLink {
-  &:active {
-    color: rgba(0, 0, 0, 0.3);
-    opacity: 0.6;
-  }
+@mixin customLink($color: #28d0ff, $hoverC: #60d3f3) {
+  color: $color;
+  transition: all 0.3s ease;
   &:hover {
-    opacity: 0.6;
-    // color: rgba(0, 0, 0, 0.2);
+    color: $hoverC;
   }
+  @content;
 }
 
 @mixin defaultBtn() {
-  button {
-    text-decoration: none;
-    border: none;
-    background: unset;
-    margin: 0;
-    padding: 0;
-    cursor: pointer;
-    @content;
-  }
+  text-decoration: none;
+  border: none;
+  background: unset;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  @content;
 }

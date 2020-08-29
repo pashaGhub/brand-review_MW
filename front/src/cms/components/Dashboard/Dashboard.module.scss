@@ -1,0 +1,76 @@
+@import "../../../assets/mixins.scss";
+@import "../../../assets/variables.scss";
+
+.container {
+  width: 20rem;
+
+  .positionSticky {
+    position: sticky;
+    top: 0;
+  }
+  @include maxResponsive(1023px) {
+    display: none;
+  }
+
+  a {
+    color: unset;
+  }
+
+  .section {
+    font-size: 1.1rem;
+    line-height: 2rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .createSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #4caf50;
+    color: #fff;
+    height: 3rem;
+    letter-spacing: 3px;
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+
+    &:hover {
+      background: #46a049;
+    }
+  }
+
+  .title {
+    font-weight: 600;
+    transition: all 0.5s ease;
+    display: inline-block;
+    position: relative;
+
+    &::before {
+      content: "\00bb";
+      position: absolute;
+      opacity: 0;
+      top: 0;
+      left: -20px;
+      color: black;
+      transition: all 0.5s;
+    }
+    &:hover {
+      padding-left: 1rem;
+
+      &::before {
+        opacity: 1;
+        left: 0;
+      }
+    }
+  }
+
+  .titleActive {
+    padding-left: 1rem;
+
+    &::before {
+      opacity: 1;
+      left: 0;
+    }
+  }
+}
