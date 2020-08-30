@@ -13,7 +13,7 @@ import { Home } from "./pages/Home";
 import { Login } from "./cms/pages/Login/Login";
 import { Register } from "./cms/pages/Register/Register";
 import { MainPanel } from "./cms/pages/MainPanel/MainPanel";
-import { NewSection } from "./cms/pages/NewSection/NewSection";
+import { SectionEditor } from "./cms/pages/SectionEditor/SectionEditor";
 
 import s from "./App.module.scss";
 
@@ -32,7 +32,7 @@ export const App: React.FC = () => {
           <Route exact path={ROUTES.login} component={Login} />
           <Route exact path={ROUTES.register} component={Register} />
           <Route exact path={ROUTES.AMainPanel} component={MainPanel} />
-          <Route exact path={ROUTES.ACreateSection} component={NewSection} />
+          <Route exact path={ROUTES.ACreateSection} component={SectionEditor} />
         </Switch>
       </Router>
 

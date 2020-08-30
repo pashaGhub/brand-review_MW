@@ -61,3 +61,137 @@
   cursor: pointer;
   @content;
 }
+
+@mixin defaultInput($input-height: 3rem, $efont-size: 0.8rem) {
+  position: relative;
+  @content;
+
+  .labelInside {
+    position: absolute;
+    background: #fff;
+    color: #979797;
+    font-size: $input-height / 3;
+    align-items: center;
+    top: 20%;
+    left: 0.6rem;
+    transition: 0.2s ease all;
+    pointer-events: none;
+  }
+
+  input {
+    width: 100%;
+    height: $input-height;
+    font-size: $input-height - ($input-height / 3 * 2);
+    font-weight: 500;
+    border: 1px solid #979797;
+    border-radius: 3px;
+    padding-left: 1rem;
+
+    // &:focus {
+    //   outline: none;
+    //   border-color: #333;
+    //   box-shadow: 0 0 0 1px #333;
+    // }
+
+    &:not(:placeholder-shown) ~ label {
+      top: -18%;
+      padding: 0 6px;
+      font-size: $input-height / 4;
+      border-radius: 5px;
+    }
+
+    &:focus ~ label {
+      top: -18%;
+      padding: 0 6px;
+      font-size: $input-height / 4;
+      border-radius: 5px;
+    }
+  }
+
+  .error {
+    position: absolute;
+    margin-top: 0%;
+    padding-top: 5px;
+    z-index: -1;
+    color: red;
+    font-size: $efont-size;
+    animation: cssAnimation 0.8s 2;
+    animation-direction: alternate;
+  }
+
+  @keyframes cssAnimation {
+    0% {
+      margin-top: 0%;
+    }
+    100% {
+      margin-top: -12%;
+    }
+  }
+}
+
+@mixin defaultTextarea($height: 3rem, $font-size: 1rem, $efont-size: 0.8rem) {
+  position: relative;
+  @content;
+
+  .labelInside {
+    position: absolute;
+    background: #fff;
+    color: #979797;
+    font-size: 1rem;
+    align-items: center;
+    top: 0.6rem;
+    left: 0.6rem;
+    transition: 0.2s ease all;
+    pointer-events: none;
+  }
+
+  textarea {
+    width: 100%;
+    height: $height;
+    font-size: $font-size;
+    font-weight: 500;
+    border: 1px solid #979797;
+    border-radius: 3px;
+    padding: 1rem;
+
+    // &:focus {
+    //   outline: none;
+    //   border-color: #333;
+    //   box-shadow: 0 0 0 1px #333;
+    // }
+
+    &:not(:placeholder-shown) ~ label {
+      top: -0.6rem;
+      padding: 0 6px;
+      font-size: 0.8rem;
+      border-radius: 5px;
+    }
+
+    &:focus ~ label {
+      top: -0.6rem;
+      padding: 0 6px;
+      font-size: 0.8rem;
+      border-radius: 5px;
+    }
+  }
+
+  .error {
+    position: absolute;
+    margin-top: 0%;
+    padding-top: 5px;
+    z-index: -1;
+    color: red;
+    font-size: $efont-size;
+    animation: cssAnimation 0.8s 2;
+    animation-direction: alternate;
+  }
+
+  @keyframes cssAnimation {
+    0% {
+      margin-top: 0%;
+    }
+    100% {
+      margin-top: -12%;
+    }
+  }
+}

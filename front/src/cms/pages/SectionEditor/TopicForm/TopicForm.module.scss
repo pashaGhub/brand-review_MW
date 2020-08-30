@@ -1,0 +1,39 @@
+@import "../../../../assets/mixins.scss";
+@import "../../../../assets/variables.scss";
+
+.topicTitle {
+  @include defaultInput($input-height: 3rem);
+  width: 100%;
+  margin-bottom: 1rem;
+
+  @include minResponsive(900px) {
+    width: 50%;
+  }
+}
+
+.topicText {
+  @include defaultTextarea($height: 10rem);
+  width: 100%;
+  @include minResponsive(900px) {
+    width: 70%;
+  }
+}
+
+.topicLayout {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    color: #979797;
+    margin-bottom: 0.5rem;
+  }
+  select {
+    width: 10rem;
+    height: 2rem;
+    font-size: 1rem;
+    &:hover {
+      border-color: #cccccc;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+  }
+}

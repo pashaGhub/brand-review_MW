@@ -11,5 +11,5 @@ export const ROUTES: IROUTES = {
   login: "/login",
   register: "/register",
   AMainPanel: "/admin/sections-panel",
-  ACreateSection: "/admin/create-section",
+  ACreateSection: "/admin/section-editor",
 };

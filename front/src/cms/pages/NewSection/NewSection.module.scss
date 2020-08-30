@@ -1,7 +1,0 @@
-@import "../../../assets/mixins.scss";
-@import "../../../assets/variables.scss";
-
-.container {
-  @include defaultContainerWidth() {
-  }
-}
