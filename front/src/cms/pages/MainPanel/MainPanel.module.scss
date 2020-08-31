@@ -17,8 +17,7 @@
       display: flex;
       justify-content: space-between;
       width: 100%;
-      border: solid 2px #28b0d6;
-      border-radius: 5px;
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
       line-height: 3rem;
       font-size: 1.1rem;
       font-weight: 600;
@@ -26,22 +25,22 @@
       transition: all 0.2s ease;
 
       &:not(:last-of-type) {
-        margin-bottom: 1rem;
+        margin-bottom: 2rem;
       }
 
       .deleteBtn {
         @include defaultBtn();
-        background: $danger-color;
-        color: #fff;
+        border: solid 2px $danger-color;
         border-radius: 5px;
         height: 2.3rem;
         margin: auto 0;
-        padding: 0.5rem;
+        padding: 0 0.5rem;
         transition: all 0.3s ease;
         letter-spacing: 2px;
 
         &:hover {
           background: #c82333;
+          color: #fff;
         }
       }
     }

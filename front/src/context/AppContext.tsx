@@ -2,7 +2,7 @@ import React, { createContext, useState } from "react";
 
 export const AppContext = createContext<any>(Boolean);
 
-export function ContextProvider(props: any): JSX.Element {
+export function AppContextProvider(props: any): JSX.Element {
   const [mobNav, setMobNav] = useState<boolean>(false);
   const [location, setLocation] = useState<string>(""); //used to select right mobile navigation. 1.public 2.none 3.admin
 

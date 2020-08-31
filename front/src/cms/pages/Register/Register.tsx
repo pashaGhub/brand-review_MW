@@ -1,18 +1,23 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { AppContext } from "../../../context/AppContext";
+import { AppContext, AuthContext } from "../../../context";
+import { useHttp, useMessage } from "../../../hooks";
 
 import s from "./Register.module.scss";
 
 interface IRegisterForm {
   email: string;
-  pass: string;
-  rePass: string;
+  password: string;
+  rePassword: string;
 }
 
 export const Register: React.FC = () => {
   const { handleLocation } = useContext(AppContext);
+  const { login } = useContext(AuthContext);
+  const { loading, request, error, clearError } = useHttp();
+  const message = useMessage();
+
   const [passCheck, setPassCheck] = useState<boolean>(false);
   const { handleSubmit, register, errors } = useForm<IRegisterForm>();
 
@@ -21,15 +26,27 @@ export const Register: React.FC = () => {
     handleLocation(location);
   }, [handleLocation, location]);
 
-  const onSubmit = (props: IRegisterForm) => {
-    const { pass, rePass } = props;
+  useEffect(() => {
+    message(error);
+    clearError();
+  }, [error, message, clearError]);
 
-    if (pass !== rePass) {
+  const onSubmit = async (props: IRegisterForm): Promise<any> => {
+    const { email, password, rePassword } = props;
+    if (password !== rePassword) {
       return setPassCheck(true);
     }
 
     setPassCheck(false);
-    return console.log(props);
+    try {
+      const data = await request("api/auth/register", "POST", {
+        email,
+        password,
+      });
+      login(data.token, data.userId);
+    } catch (e) {
+      console.log(e.message);
+    }
   };
 
   return (
@@ -64,7 +81,7 @@ export const Register: React.FC = () => {
           <div className={s.formItem}>
             <input
               type="password"
-              name="pass"
+              name="password"
               placeholder="   "
               ref={register({
                 required: "Required",
@@ -76,18 +93,18 @@ export const Register: React.FC = () => {
               })}
             />
 
-            <label className={s.labelInside} htmlFor="pass">
+            <label className={s.labelInside} htmlFor="password">
               Password
             </label>
             <div className={s.error}>
-              {errors.pass && errors.pass.message}
+              {errors.password && errors.password.message}
               {passCheck && "Passwords do not match"}
             </div>
           </div>
           <div className={s.formItem}>
             <input
               type="password"
-              name="rePass"
+              name="rePassword"
               placeholder="   "
               ref={register({
                 required: "Required",
@@ -99,17 +116,17 @@ export const Register: React.FC = () => {
               })}
             />
 
-            <label className={s.labelInside} htmlFor="rePass">
+            <label className={s.labelInside} htmlFor="rePassword">
               Repeat password
             </label>
             <div className={s.error}>
-              {errors.rePass && errors.rePass.message}
+              {errors.rePassword && errors.rePassword.message}
               {passCheck && "Passwords do not match"}
             </div>
           </div>
 
           <div>
-            <button type="submit" className={s.button}>
+            <button type="submit" disabled={loading} className={s.button}>
               Create user
             </button>
           </div>

@@ -8,12 +8,16 @@ const router = Router();
 // /api/auth/register
 router.post("/register", async (req, res) => {
   try {
+    console.log("Body", req.body);
     const { email, password } = req.body;
 
-    const candidate = await User.findOne({ email });
+    const candidate = await User.findOne();
+    console.log(candidate);
 
     if (candidate) {
-      return res.status(400).json({ message: "User already exist" });
+      return res
+        .status(400)
+        .json({ message: "User already exist. Please login" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -21,7 +25,11 @@ router.post("/register", async (req, res) => {
 
     await user.save();
 
-    res.status(201).json({ message: "User created" });
+    const token = jwt.sign({ userID: user.id }, config.get("jwtSecret"), {
+      expiresIn: "1h",
+    });
+
+    res.json({ token, userId: user.id });
   } catch (e) {
     res.status(500).json({ message: "Something went wrong :( try again." });
   }

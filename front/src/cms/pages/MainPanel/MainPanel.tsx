@@ -8,10 +8,10 @@ import s from "./MainPanel.module.scss";
 import { isNull } from "util";
 
 const data = [
-  { title: "Section 1", items: ["1", "2"] },
-  { title: "Section 2" },
-  { title: "Section 3" },
-  { title: "Section 4" },
+  { title: "Invitation", items: ["1", "2"] },
+  { title: "Colors" },
+  { title: "Our Video" },
+  { title: "Greeding" },
 ];
 
 export const MainPanel: React.FC = () => {

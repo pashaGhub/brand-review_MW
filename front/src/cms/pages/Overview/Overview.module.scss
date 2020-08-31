@@ -1,0 +1,31 @@
+@import "../../../assets/mixins.scss";
+@import "../../../assets/variables.scss";
+
+.panelBtn {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  bottom: 3rem;
+  right: 2rem;
+  background: $success-color;
+  color: #fff;
+  height: 3rem;
+  padding: 1rem;
+  letter-spacing: 3px;
+  z-index: 100;
+
+  &:hover {
+    background: $success-dark;
+  }
+
+  @include minResponsive(640px) {
+    bottom: unset;
+    top: $mobHeader-height + 2rem;
+  }
+  @include minResponsive(1024px) {
+    top: $header-height + 2rem;
+  }
+  @include minResponsive(1440px) {
+    right: 9rem;
+  }
+}

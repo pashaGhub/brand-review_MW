@@ -3,7 +3,7 @@
 
 .header {
   background-color: $dark-color;
-  height: $header-height;
+  height: $mobHeader-height;
   position: sticky;
   top: 0;
   color: white;
@@ -23,18 +23,18 @@
     justify-content: space-between;
 
     h1 {
-      line-height: $header-height;
+      line-height: $mobHeader-height;
       font-size: 2rem;
 
       @include minResponsive(1024px) {
         font-size: 3.5rem;
-        line-height: $header-height + 2;
+        line-height: $header-height;
       }
     }
   }
 
   @include minResponsive(1024px) {
-    height: $header-height + 2;
+    height: $header-height;
   }
   @include minResponsive(1441px) {
     padding: 0;

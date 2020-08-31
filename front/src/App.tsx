@@ -1,19 +1,12 @@
 import React, { useContext } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { ROUTES } from "./constants";
-import { AppContext } from "./context/AppContext";
+import { BrowserRouter as Router } from "react-router-dom";
+import { AppContext } from "./context";
 
 import { Header } from "./components/Header/Header";
 import { Footer } from "./components/Footer/Footer";
 import { MobileNav } from "./components/MobileNav/MobileNav";
 import { MobDashboard } from "./cms/components/MobDashboard/MobDashboard";
-// import { UserAuth } from "./routes/UserAuth";
-
-import { Home } from "./pages/Home";
-import { Login } from "./cms/pages/Login/Login";
-import { Register } from "./cms/pages/Register/Register";
-import { MainPanel } from "./cms/pages/MainPanel/MainPanel";
-import { SectionEditor } from "./cms/pages/SectionEditor/SectionEditor";
+import { Routes } from "./routes/Routes";
 
 import s from "./App.module.scss";
 
@@ -27,13 +20,7 @@ export const App: React.FC = () => {
       <Router>
         {location === "public" && <MobileNav />}
         {location === "admin" && <MobDashboard />}
-        <Switch>
-          <Route exact path={ROUTES.publicHome} component={Home} />
-          <Route exact path={ROUTES.login} component={Login} />
-          <Route exact path={ROUTES.register} component={Register} />
-          <Route exact path={ROUTES.AMainPanel} component={MainPanel} />
-          <Route exact path={ROUTES.ACreateSection} component={SectionEditor} />
-        </Switch>
+        <Routes />
       </Router>
 
       <Footer />
