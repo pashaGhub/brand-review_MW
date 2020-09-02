@@ -8,7 +8,6 @@ const router = Router();
 // /api/auth/register
 router.post("/register", async (req, res) => {
   try {
-    console.log("Body", req.body);
     const { email, password } = req.body;
 
     const candidate = await User.findOne();
@@ -25,7 +24,7 @@ router.post("/register", async (req, res) => {
 
     await user.save();
 
-    const token = jwt.sign({ userID: user.id }, config.get("jwtSecret"), {
+    const token = jwt.sign({ userId: user.id }, config.get("jwtSecret"), {
       expiresIn: "1h",
     });
 
@@ -39,11 +38,10 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(400).json({ message: "User does not exist" });
+      return res.status(400).json({ message: "User does not exist " });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -52,7 +50,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "password incorrect" });
     }
 
-    const token = jwt.sign({ userID: user.id }, config.get("jwtSecret"), {
+    const token = jwt.sign({ userId: user.id }, config.get("jwtSecret"), {
       expiresIn: "1h",
     });
 

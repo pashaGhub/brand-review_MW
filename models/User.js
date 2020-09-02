@@ -1,4 +1,5 @@
 const { Schema, model, Types } = require("mongoose");
+const Section = require("./Section");
 
 const schema = new Schema({
   email: {

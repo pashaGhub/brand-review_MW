@@ -15,7 +15,7 @@ export function AuthContextProvider(props: any): JSX.Element {
 
     localStorage.setItem(
       storageName,
-      JSON.stringify({ userId: jwtToken, token: id })
+      JSON.stringify({ userId: id, token: jwtToken })
     );
   }, []);
 
