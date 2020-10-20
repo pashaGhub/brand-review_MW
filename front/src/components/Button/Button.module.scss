@@ -1,0 +1,35 @@
+@import "../../assets/mixins.scss";
+@import "../../assets/variables.scss";
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: unset;
+  background: $success-color;
+  color: #fff;
+  height: 3rem;
+  letter-spacing: 3px;
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+
+  &:hover {
+    background: $success-dark;
+  }
+}
+
+.success {
+  background: $success-color;
+
+  &:hover {
+    background: $success-dark;
+  }
+}
+
+.danger {
+  background: $danger-color;
+
+  &:hover {
+    background: $danger-dark;
+  }
+}

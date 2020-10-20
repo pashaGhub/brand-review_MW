@@ -1,0 +1,23 @@
+@import "../../../../assets/mixins.scss";
+@import "../../../../assets/variables.scss";
+
+.imgAlt,
+.colorInfo {
+  @include defaultInput($input-height: 3rem);
+  width: 100%;
+  margin-bottom: 1.5rem;
+
+  &:first-of-type {
+    margin-bottom: 2rem;
+  }
+}
+
+.colorCode {
+  @include defaultInput($input-height: 3rem);
+  margin-bottom: 1rem;
+  width: 100%;
+
+  @include minResponsive(900px) {
+    width: 60%;
+  }
+}

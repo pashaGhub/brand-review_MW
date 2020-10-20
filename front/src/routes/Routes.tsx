@@ -19,7 +19,7 @@ export const Routes: React.FC = () => {
         <Route exact path={ROUTES.overview} component={Overview} />
         <Route exact path={ROUTES.AMainPanel} component={MainPanel} />
         <Route exact path={ROUTES.ACreateSection} component={SectionEditor} />
-        <Redirect to={ROUTES.AMainPanel} />
+        {/* <Redirect to={ROUTES.AMainPanel} /> */}
       </Switch>
     );
   }
@@ -29,7 +29,7 @@ export const Routes: React.FC = () => {
       <Route exact path={ROUTES.publicHome} component={Home} />
       <Route exact path={ROUTES.login} component={Login} />
       <Route exact path={ROUTES.register} component={Register} />
-      <Redirect to={ROUTES.publicHome} />
+      {/* <Redirect to={ROUTES.publicHome} /> */}
     </Switch>
   );
 };

@@ -1,6 +1,12 @@
 @import "../../../../assets/mixins.scss";
 @import "../../../../assets/variables.scss";
 
+.container {
+  padding: 10px 5px;
+  margin-bottom: 2rem;
+  box-shadow: 0 0px 8px 4px rgba(0, 0, 0, 0.15);
+}
+
 .topicTitle {
   @include defaultInput($input-height: 3rem);
   width: 100%;
@@ -18,10 +24,10 @@
     width: 70%;
   }
 }
-
 .topicLayout {
   display: flex;
   flex-direction: column;
+  margin-bottom: 1rem;
 
   label {
     color: #979797;
@@ -35,5 +41,14 @@
       border-color: #cccccc;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     }
+  }
+}
+
+.buttons {
+  display: flex;
+  margin-top: 1rem;
+
+  button:first-of-type {
+    margin-right: 1rem;
   }
 }

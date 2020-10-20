@@ -1,8 +1,9 @@
 import React, { useEffect, useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { AppContext, AuthContext } from "../../../context";
 import { useHttp, useMessage } from "../../../hooks";
+import { ROUTES } from "../../../constants";
 
 import s from "./Login.module.scss";
 
@@ -14,9 +15,12 @@ interface ILoginForm {
 export const Login: React.FC = () => {
   const { handleLocation } = useContext(AppContext);
   const { login } = useContext(AuthContext);
+
   const { loading, request, error, clearError } = useHttp();
-  const message = useMessage();
   const { handleSubmit, register, errors } = useForm<ILoginForm>();
+
+  const message = useMessage();
+  const history = useHistory();
 
   const location = useLocation();
   useEffect(() => {
@@ -33,6 +37,7 @@ export const Login: React.FC = () => {
     try {
       const data = await request("api/auth/login", "POST", { ...props });
       login(data.token, data.userId);
+      history.push(ROUTES.AMainPanel);
     } catch (e) {}
   };
 

@@ -1,0 +1,14 @@
+@import "../../../../assets/mixins.scss";
+@import "../../../../assets/variables.scss";
+
+.imgAlt,
+.subtitle {
+  @include defaultInput($input-height: 3rem);
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.imgText {
+  @include defaultTextarea($height: 10rem);
+  width: 100%;
+}

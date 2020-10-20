@@ -31,16 +31,14 @@
       .deleteBtn {
         @include defaultBtn();
         border: solid 2px $danger-color;
-        border-radius: 5px;
         height: 2.3rem;
         margin: auto 0;
         padding: 0 0.5rem;
-        transition: all 0.3s ease;
+        transition: all 0.2s ease;
         letter-spacing: 2px;
 
         &:hover {
-          background: #c82333;
-          color: #fff;
+          box-shadow: 0 0px 0px 2px rgba(202, 11, 0, 0.8);
         }
       }
     }
