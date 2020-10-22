@@ -1,6 +1,6 @@
 import React from "react";
 
-import beach from "../../../../assets/imgs/beach.jpg";
+import beach from "../../../assets/imgs/beach.jpg";
 
 import "./Window.scss";
 

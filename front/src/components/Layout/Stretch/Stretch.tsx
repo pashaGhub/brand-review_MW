@@ -1,7 +1,7 @@
 import React from "react";
 
-import wave from "../../../../assets/imgs/wave.jpg";
-import chairs from "../../../../assets/imgs/chairs.jpg";
+import wave from "../../../assets/imgs/wave.jpg";
+import chairs from "../../../assets/imgs/chairs.jpg";
 
 import "./Stretch.scss";
 

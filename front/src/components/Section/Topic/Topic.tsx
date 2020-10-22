@@ -8,7 +8,7 @@ import azure from "../../../assets/imgs/azure.jpg";
 import grey from "../../../assets/imgs/grey.jpg";
 import tropic from "../../../assets/imgs/tropic.jpg";
 
-import { Layout } from "../Layout/Layout";
+import { Layout } from "../../Layout/Layout";
 
 import s from "./Topic.module.scss";
 

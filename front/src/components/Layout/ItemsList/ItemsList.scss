@@ -1,33 +1,37 @@
-@import "../../../../assets/mixins.scss";
-@import "../../../../assets/variables.scss";
+@import "../../../assets/mixins.scss";
+@import "../../../assets/variables.scss";
 
-.stretch {
+.itemsList {
   @include minResponsive(640px) {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     flex-wrap: wrap;
     padding: 10px 0;
 
     .imgLayout {
+      display: flex;
+      justify-content: space-between;
       width: 100%;
-      margin-bottom: 3rem;
+      height: auto;
+      margin-bottom: 5rem;
       &:last-child {
         margin-bottom: 0;
       }
 
-      img {
+      .imgContainer {
         padding: 5px 0;
-        width: 100%;
+        width: 45%;
         height: auto;
         max-width: stretch;
-        margin-bottom: 1rem;
-        &:last-child {
-          margin-bottom: 0;
+
+        img {
+          width: 100%;
+          height: auto;
         }
       }
 
       .imgText {
-        width: 100%;
+        width: 45%;
         height: auto;
         text-align: left;
       }

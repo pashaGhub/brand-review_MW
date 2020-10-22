@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { AppContext } from "../../../context/AppContext";
-import { EditContext, ITopicForm } from "../../../context/EditContext";
+import { EditContext, ITopic } from "../../../context/EditContext";
 import { useDebounce } from "../../../hooks/debounce.hook";
 
 import { TopicForm } from "./TopicForm/TopicForm";
@@ -10,13 +10,10 @@ import { Button } from "../../../components/Button/Button";
 
 import s from "./SectionEditor.module.scss";
 
-interface IForm {}
-
 export const SectionEditor: React.FC = () => {
   const { handleLocation } = useContext(AppContext);
   const { setSectionTitle, topics, addTopic } = useContext(EditContext);
   const [title, setTitle] = useState<string>();
-  const [topicsA, setTopicsA] = useState<Array<any>>([]);
   const dTitle = useDebounce(title, 1000);
 
   const location = useLocation();
@@ -30,7 +27,7 @@ export const SectionEditor: React.FC = () => {
       <Dashboard />
       <div className={s.panel}>
         <div className={s.form}>
-          <Button text="Submit" clickHandler={() => {}} />
+          <Button text="Submit" clickHandler={() => {}} success />
           <div className={s.sectionTitle}>
             <input
               type="text"
@@ -44,10 +41,10 @@ export const SectionEditor: React.FC = () => {
             </label>
           </div>
           {topics &&
-            topics.map((item: ITopicForm, ind: number) => (
-              <TopicForm key={item.id} item={item} />
-            ))}
-          <Button text="Add Topic" clickHandler={() => addTopic()} />
+            topics
+              .sort((a: ITopic, b: ITopic) => a.order - b.order)
+              .map((item: ITopic) => <TopicForm key={item.id} item={item} />)}
+          <Button text="Add Topic" clickHandler={() => addTopic()} success />
         </div>
       </div>
     </div>

@@ -9,8 +9,16 @@
     margin-bottom: 1rem;
   }
 
-  @include minResponsive(640px) {
+  .tools {
+    width: 100%;
     display: flex;
+    justify-content: flex-end;
+  }
+
+  .main {
+    @include minResponsive(640px) {
+      display: flex;
+    }
   }
 
   .imgContainer {

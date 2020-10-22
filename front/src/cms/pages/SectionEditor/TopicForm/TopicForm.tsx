@@ -1,19 +1,20 @@
 import React, { useState, useEffect, useContext } from "react";
-import { EditContext, ITopicForm } from "../../../../context/EditContext";
+import { EditContext, ITopic, IImg } from "../../../../context/EditContext";
+
+import { Button } from "../../../../components/Button/Button";
 import { ImgsForm } from "../ImgsForm/ImgsForm";
+import { VideoForm } from "../VideoForm/VideoForm";
 
 import { useDebounce } from "../../../../hooks/debounce.hook";
 import { createID } from "../../../../services/utils";
 
-import { Button } from "../../../../components/Button/Button";
-
 import s from "./TopicForm.module.scss";
 
-interface ITopic {
-  item: ITopicForm;
+interface ITopicForm {
+  item: ITopic;
 }
 
-export const TopicForm: React.FC<ITopic> = ({ item }) => {
+export const TopicForm: React.FC<ITopicForm> = ({ item }) => {
   const { topics, setTopics } = useContext(EditContext);
   const [layout, setLayout] = useState<string>("window");
   const [title, setTitle] = useState<string>("");
@@ -33,19 +34,17 @@ export const TopicForm: React.FC<ITopic> = ({ item }) => {
       imgText: "",
     });
 
-    let newTopics = topics.filter((topic: ITopicForm) => item.id !== topic.id);
+    let newTopics = topics.filter((topic: ITopic) => item.id !== topic.id);
     newTopics.push(newItem);
     setTopics(newTopics);
   };
 
-  const deleteImage = () => {
+  const deleteTopic = () => {
     const result = window.confirm(
       "Topic will be deleted IRREVERSIBLY! Do you want to continue?"
     );
     if (result) {
-      const newTopics = topics.filter(
-        (topic: ITopicForm) => item.id !== topic.id
-      );
+      const newTopics = topics.filter((topic: ITopic) => item.id !== topic.id);
 
       setTopics(newTopics);
     }
@@ -57,9 +56,7 @@ export const TopicForm: React.FC<ITopic> = ({ item }) => {
   useEffect(() => {
     let newItem = item;
     newItem = { ...item, layout, title: dTitle, text: dText };
-    console.log(topics);
-
-    let newTopics = topics.filter((topic: ITopicForm) => item.id !== topic.id);
+    let newTopics = topics.filter((topic: ITopic) => item.id !== topic.id);
     newTopics.push(newItem);
     setTopics(newTopics);
   }, [layout, dTitle, dText]);
@@ -108,12 +105,20 @@ export const TopicForm: React.FC<ITopic> = ({ item }) => {
       </div>
       {item &&
         item.topicImgs &&
-        item.topicImgs.map((item: any, ind: number) => (
-          <ImgsForm key={ind} layout={layout} />
+        layout !== "videoBox" &&
+        item.topicImgs.map((img: IImg) => (
+          <ImgsForm key={img.id} layout={layout} item={img} topicID={item.id} />
         ))}
+
+      {item && layout === "videoBox" && <VideoForm />}
       <div className={s.buttons}>
-        <Button text="Add image" clickHandler={addImage} success />
-        <Button text="Delete Topic" clickHandler={deleteImage} danger />
+        {layout !== "videoBox" && (
+          <Button text="Add image" clickHandler={addImage} success />
+        )}
+        {layout === "videoBox" && (
+          <Button text="Choose video" clickHandler={() => {}} />
+        )}
+        <Button text="Delete Topic" clickHandler={deleteTopic} danger />
       </div>
     </div>
   );
