@@ -2,8 +2,7 @@
 @import "../../../assets/variables.scss";
 
 .container {
-  @include defaultContainerWidth() {
-  }
+  @include defaultContainerWidth();
 
   .panel {
     width: 100%;

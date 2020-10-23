@@ -5,6 +5,7 @@ import { EditContext, ITopic } from "../../../context/EditContext";
 import { useDebounce } from "../../../hooks/debounce.hook";
 
 import { TopicForm } from "./TopicForm/TopicForm";
+import { Upload } from "../../components/Upload/Upload";
 import { Dashboard } from "../../components/Dashboard/Dashboard";
 import { Button } from "../../../components/Button/Button";
 
@@ -23,30 +24,33 @@ export const SectionEditor: React.FC = () => {
   }, [handleLocation, location, dTitle]);
 
   return (
-    <div className={s.container}>
-      <Dashboard />
-      <div className={s.panel}>
-        <div className={s.form}>
-          <Button text="Submit" clickHandler={() => {}} success />
-          <div className={s.sectionTitle}>
-            <input
-              type="text"
-              name="sectionTitle"
-              placeholder="   "
-              required
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <label className={s.labelInside} htmlFor="sectionTitle">
-              Section title
-            </label>
+    <>
+      <Upload />
+      <div className={s.container}>
+        <Dashboard />
+        <div className={s.panel}>
+          <div className={s.form}>
+            <Button text="Submit" clickHandler={() => {}} success />
+            <div className={s.sectionTitle}>
+              <input
+                type="text"
+                name="sectionTitle"
+                placeholder="   "
+                required
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              <label className={s.labelInside} htmlFor="sectionTitle">
+                Section title
+              </label>
+            </div>
+            {topics &&
+              topics
+                .sort((a: ITopic, b: ITopic) => a.order - b.order)
+                .map((item: ITopic) => <TopicForm key={item.id} item={item} />)}
+            <Button text="Add Topic" clickHandler={() => addTopic()} success />
           </div>
-          {topics &&
-            topics
-              .sort((a: ITopic, b: ITopic) => a.order - b.order)
-              .map((item: ITopic) => <TopicForm key={item.id} item={item} />)}
-          <Button text="Add Topic" clickHandler={() => addTopic()} success />
         </div>
       </div>
-    </div>
+    </>
   );
 };

@@ -33,3 +33,20 @@ p {
   margin: 0;
   padding: 0;
 }
+
+/* Scrollbar styles
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f0eeee;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #d8d8d8;
+  border-radius: 4px;
+}

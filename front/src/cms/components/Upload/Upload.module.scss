@@ -1,0 +1,39 @@
+@import "../../../assets/mixins.scss";
+@import "../../../assets/variables.scss";
+
+.container {
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background: rgba(51, 51, 51, 0.39);
+
+  .uploadBox {
+    position: relative;
+    z-index: 2;
+    background: #fff;
+    @include defaultContainerWidth();
+    max-width: 1024px;
+    display: block;
+    padding-bottom: 2rem;
+    margin-top: 1rem;
+
+    @include minResponsive(640px) {
+      display: flex;
+    }
+
+    .items {
+      width: 100%;
+      height: auto;
+      max-height: 35rem;
+      overflow: auto;
+      margin-top: 4rem;
+    }
+
+    .dashboard {
+      position: absolute;
+      top: 0.5rem;
+      //   height: ;
+    }
+  }
+}
