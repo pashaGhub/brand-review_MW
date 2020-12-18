@@ -1,6 +1,13 @@
 import React, { useState, useRef, useContext, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { AppContext } from "../../../context/AppContext";
+import { useLocation, useHistory } from "react-router-dom";
+import { notification } from "antd";
+import { AppContext, AuthContext } from "../../../context";
+import { ITopic } from "../../../context/EditContext";
+import {
+  getSections,
+  deleteSection,
+  changeSectionsOrder,
+} from "../../../services/sectionServices";
 
 import { Dashboard } from "../../components/Dashboard/Dashboard";
 
@@ -16,16 +23,74 @@ const data = [
 
 export const MainPanel: React.FC = () => {
   const { handleLocation } = useContext(AppContext);
+  const { token, logout } = useContext(AuthContext);
+  const [list, setList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [dragging, setDragging] = useState(false);
+  const [orderChanged, setOrderChanged] = useState(false);
+  const dragItem = useRef<any>();
+  const dragNode = useRef<any>();
 
   const location = useLocation();
+  const history = useHistory();
+
   useEffect(() => {
     handleLocation(location);
   }, [handleLocation, location]);
 
-  const [list, setList] = useState(data);
-  const [dragging, setDragging] = useState(false);
-  const dragItem = useRef<any>();
-  const dragNode = useRef<any>();
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const data = await getSections(token);
+
+      if (data.status === 401) {
+        logout();
+        history.push("/login");
+      }
+
+      if (data.length) {
+        setList(data.sort((a: ITopic, b: ITopic) => a.order - b.order));
+      }
+    };
+    if (!orderChanged) {
+      fetchData();
+    }
+    setLoading(false);
+  }, [token, orderChanged]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const newOrder = list.map((item: any, ind: number) => {
+        return { _id: item._id, order: ind + 1 };
+      });
+      const response = await changeSectionsOrder(newOrder, token);
+
+      if (response.status === 401) {
+        logout();
+        history.push("/login");
+      }
+
+      if (response.ok) {
+        notification["success"]({
+          message: "Success",
+          description: "Order successfully updated",
+          duration: 20,
+        });
+      } else {
+        notification["error"]({
+          message: "Error",
+          description: "Something went wrong...",
+          duration: 20,
+        });
+      }
+
+      setOrderChanged(false);
+    };
+
+    if (orderChanged) {
+      fetchData();
+    }
+  }, [orderChanged]);
 
   const handleDragStart = (e: any, sctI: number) => {
     dragItem.current = sctI;
@@ -53,6 +118,8 @@ export const MainPanel: React.FC = () => {
     dragNode.current.removeEventListener("dragend", handleDragEnd);
     dragItem.current = null;
     dragNode.current = null;
+
+    setOrderChanged(true);
   };
 
   // handle style of dragging item
@@ -64,48 +131,77 @@ export const MainPanel: React.FC = () => {
     return s.section;
   };
 
-  const deleteSection = (stcI: number) => {
+  const handleDelete = async (id: number) => {
     if (
       window.confirm(
         "Section will be deleted  IRREVERSIBLY!  Do you really want to proceed?"
       )
     ) {
-      const newList = list.filter((item, ind) => ind !== stcI);
-      console.log(newList);
+      const response = await deleteSection(id, token);
 
-      return setList([...newList]);
+      if (response.ok) {
+        notification["success"]({
+          message: "Success",
+          description: "Section successfully deleted",
+          duration: 20,
+        });
+        setOrderChanged(true);
+      } else {
+        notification["error"]({
+          message: "Error",
+          description: "Something went wrong...",
+          duration: 20,
+        });
+      }
     }
   };
+  console.log(list);
 
   return (
     <div className={s.container}>
       <Dashboard />
-      <div className={s.panel}>
-        {list.map((sct, sctI) => (
-          <div
-            draggable
-            onDragStart={(e) => handleDragStart(e, sctI)}
-            onDragEnter={
-              dragging
-                ? (e) => {
-                    handleDragEnter(e, sctI);
-                  }
-                : isNull
-            }
-            key={sctI}
-            className={dragging ? getStyles(sctI) : s.section}
-          >
-            {sct.title}
-            <button
-              type={"button"}
-              onClick={() => deleteSection(sctI)}
-              className={s.deleteBtn}
-            >
-              Delete
-            </button>
-          </div>
-        ))}
-      </div>
+      {loading && <div>loading...</div>}
+      {!loading && (
+        <div className={s.panel}>
+          {list.length > 0 ? (
+            list.map((sct: any, sctI: number) => (
+              <div
+                draggable
+                onDragStart={(e) => handleDragStart(e, sctI)}
+                onDragEnter={
+                  dragging
+                    ? (e) => {
+                        handleDragEnter(e, sctI);
+                      }
+                    : isNull
+                }
+                key={sctI}
+                className={dragging ? getStyles(sctI) : s.section}
+              >
+                {sct.title}
+                <div>
+                  <button
+                    type={"button"}
+                    onClick={() => {}}
+                    className={`${s.btn} ${s.edit}`}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    type={"button"}
+                    onClick={() => handleDelete(sct._id)}
+                    className={`${s.btn} ${s.delete}`}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div>there is no sections</div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

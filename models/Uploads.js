@@ -1,18 +1,18 @@
 const { Schema, model, Types } = require("mongoose");
-const Topic = require("./Topic");
 
 const schema = new Schema({
+  _id: {
+    type: Types.ObjectId,
+  },
   owner: {
     type: Types.ObjectId,
     ref: "User",
   },
-  order: {
-    type: Number,
-  },
-  title: {
+  path: {
     type: String,
+    required: true,
+    unique: true,
   },
-  topics: [Topic.schema],
 });
 
-module.exports = model("Section", schema);
+module.exports = model("Uploads", schema);

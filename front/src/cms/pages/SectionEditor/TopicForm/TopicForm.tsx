@@ -6,7 +6,7 @@ import { ImgsForm } from "../ImgsForm/ImgsForm";
 import { VideoForm } from "../VideoForm/VideoForm";
 
 import { useDebounce } from "../../../../hooks/debounce.hook";
-import { createID } from "../../../../services/utils";
+import { createID } from "../../../../utils/utils";
 
 import s from "./TopicForm.module.scss";
 

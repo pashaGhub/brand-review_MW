@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { AppContext } from "../../../context/AppContext";
 import { EditContext, ITopic } from "../../../context/EditContext";
 import { useDebounce } from "../../../hooks/debounce.hook";
+// import {getSections} from '../../../services/sectionServices'
 
 import { TopicForm } from "./TopicForm/TopicForm";
 import { Upload } from "../../components/Upload/Upload";
@@ -13,7 +14,9 @@ import s from "./SectionEditor.module.scss";
 
 export const SectionEditor: React.FC = () => {
   const { handleLocation } = useContext(AppContext);
-  const { setSectionTitle, topics, addTopic } = useContext(EditContext);
+  const { setSectionTitle, topics, addTopic, uploadOpen } = useContext(
+    EditContext
+  );
   const [title, setTitle] = useState<string>();
   const dTitle = useDebounce(title, 1000);
 
@@ -25,7 +28,7 @@ export const SectionEditor: React.FC = () => {
 
   return (
     <>
-      <Upload />
+      {uploadOpen && <Upload />}
       <div className={s.container}>
         <Dashboard />
         <div className={s.panel}>
