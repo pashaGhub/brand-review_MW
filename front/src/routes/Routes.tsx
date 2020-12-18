@@ -9,27 +9,36 @@ import { Register } from "../cms/pages/Register/Register";
 import { Login } from "../cms/pages/Login/Login";
 import { Overview } from "../cms/pages/Overview/Overview";
 import { Home } from "../pages/Home";
+import { Error404 } from "../pages/Error404/Error404";
 
 export const Routes: React.FC = () => {
   const { isAuthenticated } = useContext(AuthContext);
 
-  if (isAuthenticated) {
-    return (
-      <Switch>
-        <Route exact path={ROUTES.overview} component={Overview} />
-        <Route exact path={ROUTES.AMainPanel} component={MainPanel} />
-        <Route exact path={ROUTES.ACreateSection} component={SectionEditor} />
-        {/* <Redirect to={ROUTES.AMainPanel} /> */}
-      </Switch>
-    );
-  }
+  // if (isAuthenticated) {
+  //   return (
+  //     <Switch>
+  //       {isAuthenticated && <><Route exact path={ROUTES.overview} component={Overview} />
+  //       <Route exact path={ROUTES.AMainPanel} component={MainPanel} />
+  //       <Route exact path={ROUTES.ACreateSection} component={SectionEditor} />
+  //       <Route component={Error404} /></>}
+
+  //     </Switch>
+  //   );
+  // }
 
   return (
     <Switch>
+      {isAuthenticated && (
+        <>
+          <Route exact path={ROUTES.overview} component={Overview} />
+          <Route exact path={ROUTES.AMainPanel} component={MainPanel} />
+          <Route exact path={ROUTES.ACreateSection} component={SectionEditor} />
+        </>
+      )}
       <Route exact path={ROUTES.publicHome} component={Home} />
       <Route exact path={ROUTES.login} component={Login} />
       <Route exact path={ROUTES.register} component={Register} />
-      {/* <Redirect to={ROUTES.publicHome} /> */}
+      <Route component={Error404} />
     </Switch>
   );
 };

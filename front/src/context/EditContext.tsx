@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import { createID } from "../services/utils";
+import { createID } from "../utils/utils";
 
 export const EditContext = createContext<any>(Boolean);
 export interface IImg {
@@ -29,14 +29,14 @@ export function EditContextProvider(props: any): JSX.Element {
   const [formData, setFormData] = useState<IFormData>();
   const [sectionTitle, setSectionTitle] = useState<string>("");
   const [topics, setTopics] = useState<Array<ITopic>>([]);
-  const [topicImg, setTopicImgs] = useState<Array<IImg>>();
+  const [uploadOpen, setUploadOpen] = useState<boolean>(false);
+  const [selectedImg, setSelectedImg] = useState<string | null>(null);
 
   const addTopic = () => {
     setTopics((oldList: any) => {
       let newList = JSON.parse(JSON.stringify(oldList));
       newList.push({
         id: createID(),
-        order: new Date().getTime(),
         layout: "",
         title: "",
         text: "",
@@ -45,6 +45,7 @@ export function EditContextProvider(props: any): JSX.Element {
       return newList;
     });
   };
+  console.log(topics);
 
   return (
     <EditContext.Provider
@@ -53,9 +54,13 @@ export function EditContextProvider(props: any): JSX.Element {
         setSectionTitle,
         topics,
         setTopics,
-        setTopicImgs,
         setFormData,
         addTopic,
+        uploadOpen,
+        setUploadOpen,
+
+        setSelectedImg,
+        selectedImg,
       }}
     >
       {props.children}

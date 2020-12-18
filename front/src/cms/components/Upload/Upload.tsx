@@ -1,51 +1,93 @@
-import React from "react";
+import React, { useState, useContext } from "react";
+import { EditContext } from "../../../context/EditContext";
+
+import { createID } from "../../../utils/utils";
+
 import { Button } from "../../../components/Button/Button";
+import test from "../../../assets/imgs/wave.jpg";
+import test2 from "../../../assets/imgs/beach.jpg";
+import test3 from "../../../assets/imgs/blue.jpg";
+import test4 from "../../../assets/imgs/stickers.jpg";
 import s from "./Upload.module.scss";
 
+interface IImage {
+  id: number;
+  path: string;
+}
+
+const images: Array<IImage> = [
+  {
+    id: createID(),
+    path: test,
+  },
+  {
+    id: createID(),
+    path: test2,
+  },
+  {
+    id: createID(),
+    path: test3,
+  },
+  {
+    id: createID(),
+    path: test4,
+  },
+  {
+    id: createID(),
+    path: test4,
+  },
+  {
+    id: createID(),
+    path: test2,
+  },
+];
+
 export const Upload: React.FC = () => {
+  const { setUploadOpen, setSelectedImg } = useContext(EditContext);
+  const [selected, setSelected] = useState<IImage | null>(null);
+
+  console.log("PATH", test);
+  const selectUpload = () => {
+    if (selected) {
+      setSelectedImg(selected.path);
+    }
+    setUploadOpen(false);
+  };
+
+  const closeUpload = () => {
+    setSelected(null);
+    setUploadOpen(false);
+  };
+
   return (
     <div className={s.container}>
       <div className={s.uploadBox}>
         <div className={s.items}>
-          Contrary to popular belief, Lorem Ipsum is not simply random text. It
-          has roots in a piece of classical Latin literature from 45 BC, making
-          it over 2000 years old. Richard McClintock, a Latin professor at
-          Hampden-Sydney College in Virginia, looked up one of the more obscure
-          Latin words, consectetur, from a Lorem Ipsum passage, and going
-          through the cites of the word in classical literature, discovered the
-          undoubtable source. Lorem Ipsum comes from sections 1.10.32 and
-          1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and
-          Evil) by Cicero, written in 45 BC. This book is a treatise on the
-          theory of ethics, very popular during the Renaissance. The first line
-          of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in
-          section 1.10.32. The standard chunk of Lorem Ipsum used since the
-          1500s is reproduced below for those interested. Sections 1.10.32 and
-          1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also
-          reproduced in their exact original form, accompanied by English
-          versions from the 1914 translation by H. Rackham.Contrary to popular
-          belief, Lorem Ipsum is not simply random text. It has roots in a piece
-          of classical Latin literature from 45 BC, making it over 2000 years
-          old. Richard McClintock, a Latin professor at Hampden-Sydney College
-          in Virginia, looked up one of the more obscure Latin words,
-          consectetur, from a Lorem Ipsum passage, and going through the cites
-          of the word in classical literature, discovered the undoubtable
-          source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de
-          Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero,
-          written in 45 BC. This book is a treatise on the theory of ethics,
-          very popular during the Renaissance. The first line of Lorem Ipsum,
-          "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-          The standard chunk of Lorem Ipsum used since the 1500s is reproduced
-          below for those interested. Sections 1.10.32 and 1.10.33 from "de
-          Finibus Bonorum et Malorum" by Cicero are also reproduced in their
-          exact original form, accompanied by English versions from the 1914
-          translation by H. Rackham.Contrary to popular belief, Lorem Ipsum is
-          not simply random text. It has roots in a piece of classical Latin
-          literature from 45 BC, making it over 2000 years old. Richard
-          McClintock, a Latin professor at Hampden-Sydney College in Virginia,
-          looked up one of the more obscure Latin words, consectetur, from a Lo
+          {images.length &&
+            images.map((img: IImage) => (
+              <div
+                key={img.id}
+                className={s.singleImage}
+                onClick={() => setSelected(img)}
+              >
+                <img
+                  className={`${
+                    selected && selected.id === img.id ? s.selected : ""
+                  }`}
+                  src={img.path}
+                  alt=""
+                />
+              </div>
+            ))}
         </div>
         <div className={s.dashboard}>
-          <Button text="Upload" clickHandler={() => {}} success />
+          <div className={s.buttons}>
+            <Button text="Upload" clickHandler={() => {}} />
+            <Button text="Close" clickHandler={closeUpload} danger />
+          </div>
+          <div className={s.info}>
+            <Button text="Select Image" clickHandler={selectUpload} success />
+          </div>
         </div>
       </div>
     </div>

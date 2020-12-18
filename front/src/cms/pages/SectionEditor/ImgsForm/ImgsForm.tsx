@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { EditContext, IImg, ITopic } from "../../../../context/EditContext";
 
 import { Button } from "../../../../components/Button/Button";
@@ -15,7 +15,15 @@ interface IImgForm {
 }
 
 export const ImgsForm: React.FC<IImgForm> = ({ layout, item, topicID }) => {
-  const { topics, setTopics } = useContext(EditContext);
+  const {
+    topics,
+    setTopics,
+    setUploadOpen,
+    setSelectedImg,
+    selectedImg,
+  } = useContext(EditContext);
+  const [imgSrc, setImgSrc] = useState<string>("");
+  const [selecting, setSelecting] = useState<boolean>(false);
 
   const deleteImg = () => {
     const findedTopic = topics.find((topic: ITopic) => topic.id === topicID);
@@ -28,20 +36,63 @@ export const ImgsForm: React.FC<IImgForm> = ({ layout, item, topicID }) => {
     setTopics(updatedTopics);
   };
 
+  const handleUploadImg = () => {
+    setUploadOpen(true);
+    setSelecting(true);
+  };
+
+  useEffect(() => {
+    if (selecting && selectedImg) {
+      setImgSrc(selectedImg);
+      setSelecting(false);
+      setSelectedImg(null);
+    }
+  }, [selecting, selectedImg]);
+
+  useEffect(() => {
+    let newImgInfo = item;
+    newImgInfo = {
+      ...item,
+      image: imgSrc,
+    };
+    const findedTopic = topics.find((topic: ITopic) => topic.id === topicID);
+    let uodatedImgs = findedTopic.topicImgs.filter(
+      (img: IImg) => img.id !== item.id
+    );
+    uodatedImgs.push(newImgInfo);
+    const updatedTopic = { ...findedTopic, topicImgs: uodatedImgs };
+    let newTopics = topics.filter((topic: ITopic) => topic.id !== topicID);
+    newTopics.push(updatedTopic);
+    setTopics(newTopics);
+  }, [imgSrc]);
+
   return (
     <div className={s.container}>
       <div className={s.tools}>
         <Button text="Delete Image" clickHandler={deleteImg} danger />
       </div>
       <div className={s.main}>
-        <div className={s.imgContainer}>
-          <img src={Chair} alt="" />
-          {/* <span>
-          {" "}
-          Choose a picture <div className={s.plus}>+</div>
-        </span> */}
-          <button>Change a picture</button>
-        </div>
+        {imgSrc ? (
+          <div
+            className={s.imgContainer}
+            tabIndex={0}
+            onClick={() => handleUploadImg()}
+          >
+            <img src={imgSrc} alt="" />
+            <button>Change a picture</button>
+          </div>
+        ) : (
+          <div
+            className={s.addImg}
+            tabIndex={0}
+            onClick={() => handleUploadImg()}
+          >
+            <span>
+              {" "}
+              Choose a picture <div className={s.plus}>+</div>
+            </span>
+          </div>
+        )}
         <div className={s.imgInfo}>
           {layout === "color" ? (
             <ColorLayout imgInfo={item} topicID={topicID} />

@@ -1,8 +1,9 @@
 const { Router } = require("express");
-const User = require("../models/User");
+const ObjectID = require("mongodb").ObjectID;
 const Section = require("../models/Section");
 const auth = require("../middleware/auth.middleware");
 const router = Router();
+const { Types } = require("mongoose");
 
 router.post("/create", auth, async (req, res) => {
   try {
@@ -21,18 +22,41 @@ router.post("/edit", auth, async (req, res) => {
       req.body._id,
       req.body
     );
-    console.log(singleSection);
 
     res.json(singleSection);
   } catch (e) {
-    res.status(500).json({ message: "Something went wrong in /edit" });
+    console.log(e);
+    res
+      .status(500)
+      .json({ message: "Something went wrong in /edit", error: e });
+  }
+});
+
+router.post("/edit-order", auth, async (req, res) => {
+  try {
+    const writeOperations = req.body.map((item) => {
+      return {
+        updateOne: {
+          filter: { _id: item._id },
+          update: { order: item.order },
+        },
+      };
+    });
+
+    const response = await Section.bulkWrite(writeOperations);
+    res.json(response);
+  } catch (e) {
+    console.table(e);
+    res
+      .status(500)
+      .json({ message: "Something went wrong in /edit-order", error: e });
   }
 });
 
 router.get("/", auth, async (req, res) => {
   try {
     const sections = await Section.find({ owner: req.user.userId });
-    console.log(req.user.userId);
+
     res.json(sections);
   } catch (e) {
     res.status(500).json({ message: "Something went wrong in /" });
@@ -48,4 +72,12 @@ router.get("/:id", auth, async (req, res) => {
   }
 });
 
+router.delete("/:id", auth, async (req, res) => {
+  try {
+    const deleteSection = await Section.findByIdAndDelete(req.params.id);
+    res.json(deleteSection);
+  } catch (e) {
+    res.status(500).json({ message: "Something went wrong in section/delete" });
+  }
+});
 module.exports = router;
