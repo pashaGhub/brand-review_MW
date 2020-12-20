@@ -45,7 +45,6 @@ export function EditContextProvider(props: any): JSX.Element {
       return newList;
     });
   };
-  console.log(topics);
 
   return (
     <EditContext.Provider

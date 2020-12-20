@@ -23,6 +23,7 @@
       font-weight: 600;
       padding: 0.5rem;
       transition: all 0.2s ease;
+      cursor: move;
 
       &:not(:last-of-type) {
         margin-bottom: 2rem;
@@ -46,6 +47,7 @@
 
       .delete {
         border-color: $danger-color;
+        color: $danger-color;
 
         &:hover {
           box-shadow: 0 0px 3px 2px $danger-dark;
@@ -53,6 +55,7 @@
       }
       .edit {
         border-color: $mint-blue;
+        color: $mint-blue;
         margin-right: 1rem;
 
         &:hover {
@@ -63,6 +66,12 @@
 
     .current {
       background: #28b0d65b;
+    }
+
+    .noSections {
+      text-align: center;
+      color: $ash-color;
+      font-weight: 200;
     }
   }
 }

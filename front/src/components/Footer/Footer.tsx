@@ -10,12 +10,12 @@ export const Footer: React.FC = () => {
         <p>
           Made by
           <a
-            href="https://mancanweb.com/"
+            href="https://outer.studio/"
             target="_blank"
             rel="noopener noreferrer"
           >
             {" "}
-            mancanweb
+            outer Studio
           </a>
         </p>
       </div>

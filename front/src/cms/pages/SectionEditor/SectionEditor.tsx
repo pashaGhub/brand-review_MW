@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { AppContext } from "../../../context/AppContext";
-import { EditContext, ITopic } from "../../../context/EditContext";
+import { useLocation, useHistory } from "react-router-dom";
+import { AppContext, AuthContext, EditContext } from "../../../context";
+import { ITopic } from "../../../context/EditContext";
 import { useDebounce } from "../../../hooks/debounce.hook";
-// import {getSections} from '../../../services/sectionServices'
+import { ROUTES } from "../../../constants";
 
 import { TopicForm } from "./TopicForm/TopicForm";
 import { Upload } from "../../components/Upload/Upload";
@@ -14,17 +14,26 @@ import s from "./SectionEditor.module.scss";
 
 export const SectionEditor: React.FC = () => {
   const { handleLocation } = useContext(AppContext);
+  const { logoutUser } = useContext(AuthContext);
   const { setSectionTitle, topics, addTopic, uploadOpen } = useContext(
     EditContext
   );
   const [title, setTitle] = useState<string>();
   const dTitle = useDebounce(title, 1000);
 
+  const history = useHistory();
   const location = useLocation();
+
   useEffect(() => {
     handleLocation(location);
     setSectionTitle(dTitle);
   }, [handleLocation, location, dTitle]);
+
+  useEffect(() => {
+    if (logoutUser) {
+      history.push(ROUTES.login);
+    }
+  }, [logoutUser]);
 
   return (
     <>

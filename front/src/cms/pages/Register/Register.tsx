@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { AppContext, AuthContext } from "../../../context";
 import { useHttp, useMessage } from "../../../hooks";
+import { ROUTES } from "../../../constants";
 
 import s from "./Register.module.scss";
 
@@ -14,14 +15,15 @@ interface IRegisterForm {
 
 export const Register: React.FC = () => {
   const { handleLocation } = useContext(AppContext);
-  const { login } = useContext(AuthContext);
+  const { login, logoutUser } = useContext(AuthContext);
   const { loading, request, error, clearError } = useHttp();
-  const message = useMessage();
-
   const [passCheck, setPassCheck] = useState<boolean>(false);
   const { handleSubmit, register, errors } = useForm<IRegisterForm>();
 
+  const message = useMessage();
+  const history = useHistory();
   const location = useLocation();
+
   useEffect(() => {
     handleLocation(location);
   }, [handleLocation, location]);
@@ -30,6 +32,12 @@ export const Register: React.FC = () => {
     message(error);
     clearError();
   }, [error, message, clearError]);
+
+  useEffect(() => {
+    if (!logoutUser) {
+      history.push(ROUTES.AMainPanel);
+    }
+  }, [logoutUser]);
 
   const onSubmit = async (props: IRegisterForm): Promise<any> => {
     const { email, password, rePassword } = props;

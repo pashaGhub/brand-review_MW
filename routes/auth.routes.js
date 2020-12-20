@@ -2,6 +2,7 @@ const { Router } = require("express");
 const bcrypt = require("bcryptjs");
 const config = require("config");
 const jwt = require("jsonwebtoken");
+const auth = require("../middleware/auth.middleware");
 const User = require("../models/User");
 const router = Router();
 
@@ -47,7 +48,7 @@ router.post("/login", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.status(400).json({ message: "password incorrect" });
+      return res.status(400).json({ message: "Incorrect email or password" });
     }
 
     const token = jwt.sign({ userId: user.id }, config.get("jwtSecret"), {
@@ -57,6 +58,14 @@ router.post("/login", async (req, res) => {
     res.json({ token, userId: user.id });
   } catch (e) {
     res.status(500).json({ message: "Something went wrong :( try again." });
+  }
+});
+
+router.get("/", auth, async (req, res) => {
+  try {
+    res.json("authorized");
+  } catch (e) {
+    res.status(500).json({ message: "Something went wrong in /" });
   }
 });
 

@@ -1,9 +1,7 @@
 const { Router } = require("express");
-const ObjectID = require("mongodb").ObjectID;
 const Section = require("../models/Section");
 const auth = require("../middleware/auth.middleware");
 const router = Router();
-const { Types } = require("mongoose");
 
 router.post("/create", auth, async (req, res) => {
   try {
@@ -44,9 +42,8 @@ router.post("/edit-order", auth, async (req, res) => {
     });
 
     const response = await Section.bulkWrite(writeOperations);
-    res.json(response);
+    res.json({ response, message: "Order successfully changed" });
   } catch (e) {
-    console.table(e);
     res
       .status(500)
       .json({ message: "Something went wrong in /edit-order", error: e });
@@ -75,7 +72,7 @@ router.get("/:id", auth, async (req, res) => {
 router.delete("/:id", auth, async (req, res) => {
   try {
     const deleteSection = await Section.findByIdAndDelete(req.params.id);
-    res.json(deleteSection);
+    res.json({ deleteSection, message: "Section successfully deleted" });
   } catch (e) {
     res.status(500).json({ message: "Something went wrong in section/delete" });
   }

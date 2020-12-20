@@ -1,8 +1,10 @@
 import React, { useState, useRef, useContext, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
-import { notification } from "antd";
+import { message, notification, Spin } from "antd";
+import { useMessage } from "../../../hooks/message.hook";
 import { AppContext, AuthContext } from "../../../context";
 import { ITopic } from "../../../context/EditContext";
+import { ROUTES } from "../../../constants";
 import {
   getSections,
   deleteSection,
@@ -14,16 +16,9 @@ import { Dashboard } from "../../components/Dashboard/Dashboard";
 import s from "./MainPanel.module.scss";
 import { isNull } from "util";
 
-const data = [
-  { title: "Invitation", items: ["1", "2"] },
-  { title: "Colors" },
-  { title: "Our Video" },
-  { title: "Greeding" },
-];
-
 export const MainPanel: React.FC = () => {
   const { handleLocation } = useContext(AppContext);
-  const { token, logout } = useContext(AuthContext);
+  const { token, logout, logoutUser } = useContext(AuthContext);
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dragging, setDragging] = useState(false);
@@ -31,31 +26,41 @@ export const MainPanel: React.FC = () => {
   const dragItem = useRef<any>();
   const dragNode = useRef<any>();
 
-  const location = useLocation();
+  const message = useMessage();
   const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     handleLocation(location);
   }, [handleLocation, location]);
 
   useEffect(() => {
+    if (logoutUser) {
+      history.push(ROUTES.login);
+    }
+  }, [logoutUser]);
+
+  useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
+
       const data = await getSections(token);
 
       if (data.status === 401) {
         logout();
-        history.push("/login");
+        history.push(ROUTES.login);
       }
 
       if (data.length) {
         setList(data.sort((a: ITopic, b: ITopic) => a.order - b.order));
+      } else {
+        setList([]);
       }
+      setLoading(false);
     };
-    if (!orderChanged) {
+    if (!orderChanged && token) {
       fetchData();
     }
-    setLoading(false);
   }, [token, orderChanged]);
 
   useEffect(() => {
@@ -67,22 +72,10 @@ export const MainPanel: React.FC = () => {
 
       if (response.status === 401) {
         logout();
-        history.push("/login");
+        history.push(ROUTES.login);
       }
 
-      if (response.ok) {
-        notification["success"]({
-          message: "Success",
-          description: "Order successfully updated",
-          duration: 20,
-        });
-      } else {
-        notification["error"]({
-          message: "Error",
-          description: "Something went wrong...",
-          duration: 20,
-        });
-      }
+      await message(response);
 
       setOrderChanged(false);
     };
@@ -138,33 +131,20 @@ export const MainPanel: React.FC = () => {
       )
     ) {
       const response = await deleteSection(id, token);
+      await message(response);
 
       if (response.ok) {
-        notification["success"]({
-          message: "Success",
-          description: "Section successfully deleted",
-          duration: 20,
-        });
         setOrderChanged(true);
-      } else {
-        notification["error"]({
-          message: "Error",
-          description: "Something went wrong...",
-          duration: 20,
-        });
       }
     }
   };
-  console.log(list);
 
   return (
     <div className={s.container}>
       <Dashboard />
-      {loading && <div>loading...</div>}
-      {!loading && (
-        <div className={s.panel}>
-          {list.length > 0 ? (
-            list.map((sct: any, sctI: number) => (
+      <Spin spinning={loading} tip="loading..." wrapperClassName={s.panel}>
+        {list.length > 0
+          ? list.map((sct: any, sctI: number) => (
               <div
                 draggable
                 onDragStart={(e) => handleDragStart(e, sctI)}
@@ -197,11 +177,8 @@ export const MainPanel: React.FC = () => {
                 </div>
               </div>
             ))
-          ) : (
-            <div>there is no sections</div>
-          )}
-        </div>
-      )}
+          : !loading && <h1 className={s.noSections}>There is no sections</h1>}
+      </Spin>
     </div>
   );
 };

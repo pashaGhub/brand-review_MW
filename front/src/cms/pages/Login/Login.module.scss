@@ -62,6 +62,11 @@ select:-webkit-autofill:focus {
         outline: none;
         box-shadow: 0 0 0 1px #333;
       }
+
+      &:disabled {
+        filter: brightness(85%);
+        cursor: not-allowed;
+      }
     }
 
     .link {

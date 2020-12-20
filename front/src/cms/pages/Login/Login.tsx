@@ -1,8 +1,9 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { loginUser } from "../../../services/authServices";
 import { AppContext, AuthContext } from "../../../context";
-import { useHttp, useMessage } from "../../../hooks";
+import { useMessage } from "../../../hooks";
 import { ROUTES } from "../../../constants";
 
 import s from "./Login.module.scss";
@@ -14,31 +15,36 @@ interface ILoginForm {
 
 export const Login: React.FC = () => {
   const { handleLocation } = useContext(AppContext);
-  const { login } = useContext(AuthContext);
-
-  const { loading, request, error, clearError } = useHttp();
+  const { token, login, logoutUser } = useContext(AuthContext);
+  const [loading, setLoading] = useState<boolean>(false);
   const { handleSubmit, register, errors } = useForm<ILoginForm>();
 
   const message = useMessage();
   const history = useHistory();
-
   const location = useLocation();
+
   useEffect(() => {
     handleLocation(location);
   }, [handleLocation, location]);
 
   useEffect(() => {
-    message(error);
-    clearError();
-  }, [error, message, clearError]);
+    if (!logoutUser) {
+      history.push(ROUTES.AMainPanel);
+    }
+  }, [logoutUser]);
 
   const onSubmit = async (props: ILoginForm) => {
-    console.log(props);
-    try {
-      const data = await request("api/auth/login", "POST", { ...props });
+    setLoading(true);
+    const data = await loginUser(props, token);
+
+    if (data.token) {
       login(data.token, data.userId);
       history.push(ROUTES.AMainPanel);
-    } catch (e) {}
+      setLoading(false);
+    } else {
+      message(data);
+      setLoading(false);
+    }
   };
 
   return (

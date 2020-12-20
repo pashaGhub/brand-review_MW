@@ -27,8 +27,6 @@ export const getSections = async (token: string) => {
 };
 
 export const deleteSection = async (id: number, token: string) => {
-  console.log(typeof id);
-
   try {
     const response = await fetch(`${baAPI}api/section/${id}`, {
       method: "DELETE",
@@ -38,10 +36,11 @@ export const deleteSection = async (id: number, token: string) => {
       },
     });
 
+    const data = await response.json();
     return {
       ok: response.ok,
       status: response.status,
-      message: response.statusText,
+      message: data.message,
     };
   } catch (e) {
     return { message: e };
@@ -52,8 +51,6 @@ export const changeSectionsOrder = async (
   order: Array<IOrder>,
   token: string
 ) => {
-  console.log("ORDER", order);
-
   try {
     const response = await fetch(`${baAPI}api/section/edit-order`, {
       method: "POST",
@@ -67,7 +64,7 @@ export const changeSectionsOrder = async (
     return {
       ok: response.ok,
       status: response.status,
-      message: response.statusText,
+      message: "Order successfully changed",
     };
   } catch (e) {
     return { message: e };
