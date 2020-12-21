@@ -16,9 +16,9 @@ interface ITopicForm {
 
 export const TopicForm: React.FC<ITopicForm> = ({ item }) => {
   const { topics, setTopics } = useContext(EditContext);
-  const [layout, setLayout] = useState<string>("window");
-  const [title, setTitle] = useState<string>("");
-  const [text, setText] = useState<string>("");
+  const [layout, setLayout] = useState<string>(item.layout || "window");
+  const [title, setTitle] = useState<string>(item.title || "");
+  const [text, setText] = useState<string>(item.text || "");
 
   useEffect(() => {
     setText(item.text);
@@ -28,14 +28,18 @@ export const TopicForm: React.FC<ITopicForm> = ({ item }) => {
   const addImage = () => {
     let newItem = item;
     newItem.topicImgs?.push({
-      id: createID(),
+      _id: createID(),
       image: "",
       alt: "",
       imgText: "",
     });
 
-    let newTopics = topics.filter((topic: ITopic) => item.id !== topic.id);
-    newTopics.push(newItem);
+    let newTopics = topics.filter((topic: ITopic) => item._id !== topic._id);
+    newTopics.splice(
+      topics.findIndex((topic: ITopic) => item._id === topic._id),
+      0,
+      newItem
+    );
     setTopics(newTopics);
   };
 
@@ -44,7 +48,9 @@ export const TopicForm: React.FC<ITopicForm> = ({ item }) => {
       "Topic will be deleted IRREVERSIBLY! Do you want to continue?"
     );
     if (result) {
-      const newTopics = topics.filter((topic: ITopic) => item.id !== topic.id);
+      const newTopics = topics.filter(
+        (topic: ITopic) => item._id !== topic._id
+      );
 
       setTopics(newTopics);
     }
@@ -56,8 +62,12 @@ export const TopicForm: React.FC<ITopicForm> = ({ item }) => {
   useEffect(() => {
     let newItem = item;
     newItem = { ...item, layout, title: dTitle, text: dText };
-    let newTopics = topics.filter((topic: ITopic) => item.id !== topic.id);
-    newTopics.push(newItem);
+    let newTopics = topics.filter((topic: ITopic) => item._id !== topic._id);
+    newTopics.splice(
+      topics.findIndex((topic: ITopic) => item._id === topic._id),
+      0,
+      newItem
+    );
     setTopics(newTopics);
   }, [layout, dTitle, dText]);
 
@@ -92,7 +102,7 @@ export const TopicForm: React.FC<ITopicForm> = ({ item }) => {
         <label htmlFor="topicLayout">Choose layout</label>
         <select
           name="topicLayout"
-          value={item.layout}
+          value={layout}
           onChange={(e) => setLayout(e.target.value)}
         >
           <option value="window">Window</option>
@@ -107,16 +117,18 @@ export const TopicForm: React.FC<ITopicForm> = ({ item }) => {
         item.topicImgs &&
         layout !== "videoBox" &&
         item.topicImgs.map((img: IImg) => (
-          <ImgsForm key={img.id} layout={layout} item={img} topicID={item.id} />
+          <ImgsForm
+            key={img._id}
+            layout={layout}
+            item={img}
+            topicID={item._id}
+          />
         ))}
 
-      {item && layout === "videoBox" && <VideoForm />}
+      {item && layout === "videoBox" && <VideoForm item={item} />}
       <div className={s.buttons}>
         {layout !== "videoBox" && (
           <Button text="Add image" clickHandler={addImage} success />
-        )}
-        {layout === "videoBox" && (
-          <Button text="Choose video" clickHandler={() => {}} />
         )}
         <Button text="Delete Topic" clickHandler={deleteTopic} danger />
       </div>

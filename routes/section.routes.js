@@ -23,7 +23,6 @@ router.post("/edit", auth, async (req, res) => {
 
     res.json(singleSection);
   } catch (e) {
-    console.log(e);
     res
       .status(500)
       .json({ message: "Something went wrong in /edit", error: e });

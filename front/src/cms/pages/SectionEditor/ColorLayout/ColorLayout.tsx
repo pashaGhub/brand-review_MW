@@ -11,9 +11,11 @@ interface IColorLayout {
 
 export const ColorLayout: React.FC<IColorLayout> = ({ imgInfo, topicID }) => {
   const { topics, setTopics } = useContext(EditContext);
-  const [alt, setAlt] = useState("");
-  const [colorName, setColorName] = useState<string>("");
-  const [colorCodes, setColorCodes] = useState<Array<string>>(["", "", "", ""]);
+  const [alt, setAlt] = useState(imgInfo.alt || "");
+  const [colorName, setColorName] = useState<string>(imgInfo.subtitle || "");
+  const [colorCodes, setColorCodes] = useState<any>(
+    imgInfo.imgText || ["", "", "", ""]
+  );
   const [code0, setCode0] = useState<string>(colorCodes[0]);
   const [code1, setCode1] = useState<string>(colorCodes[1]);
   const [code2, setCode2] = useState<string>(colorCodes[2]);
@@ -35,6 +37,7 @@ export const ColorLayout: React.FC<IColorLayout> = ({ imgInfo, topicID }) => {
   const dCode1 = useDebounce(code1, 1000);
   const dCode2 = useDebounce(code2, 1000);
   const dCode3 = useDebounce(code3, 1000);
+
   useEffect(() => {
     let newImgInfo = imgInfo;
     newImgInfo = {
@@ -43,14 +46,22 @@ export const ColorLayout: React.FC<IColorLayout> = ({ imgInfo, topicID }) => {
       subtitle: dColorName,
       imgText: [dCode0, dCode1, dCode2, dCode3],
     };
-    const findedTopic = topics.find((topic: ITopic) => topic.id === topicID);
+    const findedTopic = topics.find((topic: ITopic) => topic._id === topicID);
     let uodatedImgs = findedTopic.topicImgs.filter(
-      (img: IImg) => img.id !== imgInfo.id
+      (img: IImg) => img._id !== imgInfo._id
     );
-    uodatedImgs.push(newImgInfo);
+    uodatedImgs.splice(
+      uodatedImgs.findIndex((img: IImg) => img._id === imgInfo._id),
+      0,
+      newImgInfo
+    );
     const updatedTopic = { ...findedTopic, topicImgs: uodatedImgs };
-    let newTopics = topics.filter((topic: ITopic) => topic.id !== topicID);
-    newTopics.push(updatedTopic);
+    let newTopics = topics.filter((topic: ITopic) => topicID !== topic._id);
+    newTopics.splice(
+      topics.findIndex((topic: ITopic) => topicID === topic._id),
+      0,
+      updatedTopic
+    );
     setTopics(newTopics);
   }, [dAlt, dColorName, dCode0, dCode1, dCode2, dCode3]);
 

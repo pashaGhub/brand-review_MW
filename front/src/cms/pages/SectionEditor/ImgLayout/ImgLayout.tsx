@@ -15,9 +15,9 @@ export const ImgLayout: React.FC<IImgLayout> = ({
   imgInfo,
   topicID,
 }) => {
-  const [alt, setAlt] = useState("");
-  const [subtitle, setSubtitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [alt, setAlt] = useState(imgInfo.alt || "");
+  const [subtitle, setSubtitle] = useState(imgInfo.subtitle || "");
+  const [description, setDescription] = useState(imgInfo.imgText || "");
   const { topics, setTopics } = useContext(EditContext);
 
   useEffect(() => {
@@ -33,6 +33,7 @@ export const ImgLayout: React.FC<IImgLayout> = ({
   const dAlt = useDebounce(alt, 1000);
   const dSubtitle = useDebounce(subtitle, 1000);
   const dDescription = useDebounce(description, 1000);
+
   useEffect(() => {
     let newImgInfo = imgInfo;
     newImgInfo = {
@@ -41,14 +42,22 @@ export const ImgLayout: React.FC<IImgLayout> = ({
       subtitle: dSubtitle,
       imgText: dDescription,
     };
-    const findedTopic = topics.find((topic: ITopic) => topic.id === topicID);
+    const findedTopic = topics.find((topic: ITopic) => topic._id === topicID);
     let uodatedImgs = findedTopic.topicImgs.filter(
-      (img: IImg) => img.id !== imgInfo.id
+      (img: IImg) => img._id !== imgInfo._id
     );
-    uodatedImgs.push(newImgInfo);
+    uodatedImgs.splice(
+      uodatedImgs.findIndex((img: IImg) => img._id === imgInfo._id),
+      0,
+      newImgInfo
+    );
     const updatedTopic = { ...findedTopic, topicImgs: uodatedImgs };
-    let newTopics = topics.filter((topic: ITopic) => topic.id !== topicID);
-    newTopics.push(updatedTopic);
+    let newTopics = topics.filter((topic: ITopic) => topicID !== topic._id);
+    newTopics.splice(
+      topics.findIndex((topic: ITopic) => topicID === topic._id),
+      0,
+      updatedTopic
+    );
     setTopics(newTopics);
   }, [dAlt, dSubtitle, dDescription]);
 

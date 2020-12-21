@@ -29,6 +29,7 @@
       overflow: auto;
       max-height: 35rem;
       margin-top: 4rem;
+      min-height: 30rem;
 
       @include maxResponsive(639px) {
         padding: $mobile-padding;

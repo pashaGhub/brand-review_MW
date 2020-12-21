@@ -15,9 +15,13 @@ import s from "./SectionEditor.module.scss";
 export const SectionEditor: React.FC = () => {
   const { handleLocation } = useContext(AppContext);
   const { logoutUser } = useContext(AuthContext);
-  const { setSectionTitle, topics, addTopic, uploadOpen } = useContext(
-    EditContext
-  );
+  const {
+    sectionTitle,
+    setSectionTitle,
+    topics,
+    addTopic,
+    uploadOpen,
+  } = useContext(EditContext);
   const [title, setTitle] = useState<string>();
   const dTitle = useDebounce(title, 1000);
 
@@ -35,6 +39,10 @@ export const SectionEditor: React.FC = () => {
     }
   }, [logoutUser]);
 
+  const handleSubmit = () => {
+    console.log("SUBMIT", topics);
+  };
+
   return (
     <>
       {uploadOpen && <Upload />}
@@ -42,12 +50,13 @@ export const SectionEditor: React.FC = () => {
         <Dashboard />
         <div className={s.panel}>
           <div className={s.form}>
-            <Button text="Submit" clickHandler={() => {}} success />
+            <Button text="Submit" clickHandler={handleSubmit} success />
             <div className={s.sectionTitle}>
               <input
                 type="text"
                 name="sectionTitle"
                 placeholder="   "
+                value={sectionTitle}
                 required
                 onChange={(e) => setTitle(e.target.value)}
               />
@@ -58,7 +67,9 @@ export const SectionEditor: React.FC = () => {
             {topics &&
               topics
                 .sort((a: ITopic, b: ITopic) => a.order - b.order)
-                .map((item: ITopic) => <TopicForm key={item.id} item={item} />)}
+                .map((item: ITopic) => (
+                  <TopicForm key={item._id} item={item} />
+                ))}
             <Button text="Add Topic" clickHandler={() => addTopic()} success />
           </div>
         </div>

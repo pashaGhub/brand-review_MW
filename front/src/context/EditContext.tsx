@@ -3,7 +3,7 @@ import { createID } from "../utils/utils";
 
 export const EditContext = createContext<any>(Boolean);
 export interface IImg {
-  id: number;
+  _id: number;
   image: string;
   alt: string;
   subtitle?: string;
@@ -11,7 +11,7 @@ export interface IImg {
 }
 
 export interface ITopic {
-  id: number;
+  _id: number;
   order: number;
   layout: string;
   title: string;
@@ -30,17 +30,21 @@ export function EditContextProvider(props: any): JSX.Element {
   const [sectionTitle, setSectionTitle] = useState<string>("");
   const [topics, setTopics] = useState<Array<ITopic>>([]);
   const [uploadOpen, setUploadOpen] = useState<boolean>(false);
+  const [uploadVideo, setUploadVideo] = useState<boolean>(false);
   const [selectedImg, setSelectedImg] = useState<string | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const [edit, setEdit] = useState<boolean>(false);
 
   const addTopic = () => {
     setTopics((oldList: any) => {
       let newList = JSON.parse(JSON.stringify(oldList));
       newList.push({
-        id: createID(),
+        _id: createID(),
         layout: "",
         title: "",
         text: "",
         topicImgs: [],
+        topicVideo: "",
       });
       return newList;
     });
@@ -49,6 +53,8 @@ export function EditContextProvider(props: any): JSX.Element {
   return (
     <EditContext.Provider
       value={{
+        uploadVideo,
+        setUploadVideo,
         sectionTitle,
         setSectionTitle,
         topics,
@@ -57,9 +63,12 @@ export function EditContextProvider(props: any): JSX.Element {
         addTopic,
         uploadOpen,
         setUploadOpen,
-
         setSelectedImg,
         selectedImg,
+        setSelectedVideo,
+        selectedVideo,
+        edit,
+        setEdit,
       }}
     >
       {props.children}

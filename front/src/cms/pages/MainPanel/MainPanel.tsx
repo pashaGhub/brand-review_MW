@@ -2,7 +2,7 @@ import React, { useState, useRef, useContext, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import { message, notification, Spin } from "antd";
 import { useMessage } from "../../../hooks/message.hook";
-import { AppContext, AuthContext } from "../../../context";
+import { AppContext, AuthContext, EditContext } from "../../../context";
 import { ITopic } from "../../../context/EditContext";
 import { ROUTES } from "../../../constants";
 import {
@@ -19,6 +19,9 @@ import { isNull } from "util";
 export const MainPanel: React.FC = () => {
   const { handleLocation } = useContext(AppContext);
   const { token, logout, logoutUser } = useContext(AuthContext);
+  const { setFormData, setSectionTitle, setTopics, setEdit } = useContext(
+    EditContext
+  );
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dragging, setDragging] = useState(false);
@@ -139,6 +142,14 @@ export const MainPanel: React.FC = () => {
     }
   };
 
+  const handleEdit = (props: any) => {
+    setFormData(props);
+    setSectionTitle(props.title);
+    setTopics(props.topics);
+    setEdit(true);
+    history.push(ROUTES.ACreateSection);
+  };
+
   return (
     <div className={s.container}>
       <Dashboard />
@@ -162,7 +173,7 @@ export const MainPanel: React.FC = () => {
                 <div>
                   <button
                     type={"button"}
-                    onClick={() => {}}
+                    onClick={() => handleEdit(sct)}
                     className={`${s.btn} ${s.edit}`}
                   >
                     Edit

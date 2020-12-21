@@ -51,7 +51,6 @@ const uploadVideo = multer({
 
 //img routes
 router.post("/img", auth, uploadImg.single("path"), async (req, res) => {
-  console.log(req.file);
   try {
     const newUpload = new Uploads({
       _id: new Types.ObjectId(),
@@ -85,7 +84,6 @@ router.get("/img", auth, async (req, res) => {
 
 //video routes
 router.post("/video", auth, uploadVideo.single("path"), async (req, res) => {
-  console.log(req.file);
   try {
     const newUpload = new Uploads({
       _id: new Types.ObjectId(),

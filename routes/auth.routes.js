@@ -10,9 +10,7 @@ const router = Router();
 router.post("/register", async (req, res) => {
   try {
     const { email, password } = req.body;
-
     const candidate = await User.findOne();
-    console.log(candidate);
 
     if (candidate) {
       return res

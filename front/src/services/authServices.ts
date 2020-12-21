@@ -30,7 +30,6 @@ export const loginUser = async (props: any, token: string) => {
     });
 
     const data = await response.json();
-    console.log("DATA", data);
 
     if (!response.ok) {
       return {
