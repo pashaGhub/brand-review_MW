@@ -7,6 +7,7 @@ interface IButton {
   clickHandler: Function;
   success?: any;
   danger?: any;
+  className?: string;
 }
 
 export const Button: React.FC<IButton> = ({
@@ -14,6 +15,7 @@ export const Button: React.FC<IButton> = ({
   clickHandler,
   success,
   danger,
+  className,
 }) => {
   let styles = `${s.button}`;
   if (success) {
@@ -21,6 +23,10 @@ export const Button: React.FC<IButton> = ({
   }
   if (danger) {
     styles = `${s.button} ${s.danger}`;
+  }
+
+  if (className) {
+    styles = `${styles} ${className}`;
   }
 
   return (

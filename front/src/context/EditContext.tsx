@@ -26,13 +26,13 @@ interface IFormData {
 }
 
 export function EditContextProvider(props: any): JSX.Element {
-  const [formData, setFormData] = useState<IFormData>();
   const [sectionTitle, setSectionTitle] = useState<string>("");
   const [topics, setTopics] = useState<Array<ITopic>>([]);
   const [uploadOpen, setUploadOpen] = useState<boolean>(false);
   const [uploadVideo, setUploadVideo] = useState<boolean>(false);
   const [selectedImg, setSelectedImg] = useState<string | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const [editData, setEditData] = useState<IFormData | null>(null);
   const [edit, setEdit] = useState<boolean>(false);
 
   const addTopic = () => {
@@ -59,7 +59,8 @@ export function EditContextProvider(props: any): JSX.Element {
         setSectionTitle,
         topics,
         setTopics,
-        setFormData,
+        setEditData,
+        editData,
         addTopic,
         uploadOpen,
         setUploadOpen,

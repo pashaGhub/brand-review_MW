@@ -1,6 +1,6 @@
 import React, { useState, useRef, useContext, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
-import { message, notification, Spin } from "antd";
+import { Spin } from "antd";
 import { useMessage } from "../../../hooks/message.hook";
 import { AppContext, AuthContext, EditContext } from "../../../context";
 import { ITopic } from "../../../context/EditContext";
@@ -19,10 +19,14 @@ import { isNull } from "util";
 export const MainPanel: React.FC = () => {
   const { handleLocation } = useContext(AppContext);
   const { token, logout, logoutUser } = useContext(AuthContext);
-  const { setFormData, setSectionTitle, setTopics, setEdit } = useContext(
-    EditContext
-  );
-  const [list, setList] = useState([]);
+  const {
+    editData,
+    setEditData,
+    setEdit,
+    setSectionTitle,
+    setTopics,
+  } = useContext(EditContext);
+  const [sectionsList, setSectionsList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dragging, setDragging] = useState(false);
   const [orderChanged, setOrderChanged] = useState(false);
@@ -35,6 +39,8 @@ export const MainPanel: React.FC = () => {
 
   useEffect(() => {
     handleLocation(location);
+    setEdit(false);
+    setEditData(null);
   }, [handleLocation, location]);
 
   useEffect(() => {
@@ -55,9 +61,9 @@ export const MainPanel: React.FC = () => {
       }
 
       if (data.length) {
-        setList(data.sort((a: ITopic, b: ITopic) => a.order - b.order));
+        setSectionsList(data.sort((a: ITopic, b: ITopic) => a.order - b.order));
       } else {
-        setList([]);
+        setSectionsList([]);
       }
       setLoading(false);
     };
@@ -68,7 +74,7 @@ export const MainPanel: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const newOrder = list.map((item: any, ind: number) => {
+      const newOrder = sectionsList.map((item: any, ind: number) => {
         return { _id: item._id, order: ind + 1 };
       });
       const response = await changeSectionsOrder(newOrder, token);
@@ -100,7 +106,7 @@ export const MainPanel: React.FC = () => {
   const handleDragEnter = (e: any, sctI: number) => {
     const currentItem = dragItem.current;
     if (currentItem !== dragNode.current) {
-      setList((oldList) => {
+      setSectionsList((oldList: any) => {
         let newList = JSON.parse(JSON.stringify(oldList));
         newList.splice(sctI, 0, newList.splice(currentItem, 1)[0]);
         dragItem.current = sctI;
@@ -143,7 +149,7 @@ export const MainPanel: React.FC = () => {
   };
 
   const handleEdit = (props: any) => {
-    setFormData(props);
+    setEditData(props);
     setSectionTitle(props.title);
     setTopics(props.topics);
     setEdit(true);
@@ -154,8 +160,8 @@ export const MainPanel: React.FC = () => {
     <div className={s.container}>
       <Dashboard />
       <Spin spinning={loading} tip="loading..." wrapperClassName={s.panel}>
-        {list.length > 0
-          ? list.map((sct: any, sctI: number) => (
+        {sectionsList.length > 0
+          ? sectionsList.map((sct: any, sctI: number) => (
               <div
                 draggable
                 onDragStart={(e) => handleDragStart(e, sctI)}

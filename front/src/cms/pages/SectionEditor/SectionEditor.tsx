@@ -2,8 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import { AppContext, AuthContext, EditContext } from "../../../context";
 import { ITopic } from "../../../context/EditContext";
+import { useMessage } from "../../../hooks/message.hook";
 import { useDebounce } from "../../../hooks/debounce.hook";
 import { ROUTES } from "../../../constants";
+import { createSection, editSection } from "../../../services/sectionServices";
 
 import { TopicForm } from "./TopicForm/TopicForm";
 import { Upload } from "../../components/Upload/Upload";
@@ -14,23 +16,32 @@ import s from "./SectionEditor.module.scss";
 
 export const SectionEditor: React.FC = () => {
   const { handleLocation } = useContext(AppContext);
-  const { logoutUser } = useContext(AuthContext);
+  const { logoutUser, token } = useContext(AuthContext);
   const {
+    edit,
+    setEdit,
+    editData,
+    setEditData,
     sectionTitle,
     setSectionTitle,
     topics,
+    setTopics,
     addTopic,
     uploadOpen,
   } = useContext(EditContext);
   const [title, setTitle] = useState<string>();
   const dTitle = useDebounce(title, 1000);
 
+  const message = useMessage();
   const history = useHistory();
   const location = useLocation();
 
   useEffect(() => {
     handleLocation(location);
     setSectionTitle(dTitle);
+    if (!edit) {
+      setTopics([]);
+    }
   }, [handleLocation, location, dTitle]);
 
   useEffect(() => {
@@ -39,8 +50,36 @@ export const SectionEditor: React.FC = () => {
     }
   }, [logoutUser]);
 
-  const handleSubmit = () => {
-    console.log("SUBMIT", topics);
+  const handleSubmit = async () => {
+    if (!edit) {
+      const newSection = {
+        title: sectionTitle,
+        order: 0,
+        topics,
+      };
+      const response = await createSection(newSection, token);
+
+      if (response.ok) {
+        history.push(ROUTES.AMainPanel);
+      }
+      message(response);
+    }
+
+    if (edit) {
+      const editedSection = {
+        _id: editData._id,
+        title: sectionTitle,
+        order: editData.order,
+        topics,
+      };
+      const response = await editSection(editedSection, token);
+
+      if (response.ok) {
+        setEditData(null);
+        history.push(ROUTES.AMainPanel);
+      }
+      message(response);
+    }
   };
 
   return (

@@ -1,5 +1,3 @@
-const baAPI = "http://localhost:5000/";
-
 interface IOrder {
   _id: any;
   order: any;
@@ -7,7 +5,7 @@ interface IOrder {
 
 export const getSections = async (token: string) => {
   try {
-    const response = await fetch(`${baAPI}api/section/`, {
+    const response = await fetch(`/api/section/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -26,9 +24,53 @@ export const getSections = async (token: string) => {
   }
 };
 
+export const createSection = async (props: any, token: string) => {
+  try {
+    const response = await fetch(`/api/section/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(props),
+    });
+
+    const data = await response.json();
+    return {
+      ok: response.ok,
+      status: response.status,
+      message: data.message,
+    };
+  } catch (e) {
+    return { message: e };
+  }
+};
+
+export const editSection = async (props: any, token: string) => {
+  try {
+    const response = await fetch(`/api/section/edit`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(props),
+    });
+
+    const data = await response.json();
+    return {
+      ok: response.ok,
+      status: response.status,
+      message: data.message,
+    };
+  } catch (e) {
+    return { message: e };
+  }
+};
+
 export const deleteSection = async (id: number, token: string) => {
   try {
-    const response = await fetch(`${baAPI}api/section/${id}`, {
+    const response = await fetch(`/api/section/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -52,7 +94,7 @@ export const changeSectionsOrder = async (
   token: string
 ) => {
   try {
-    const response = await fetch(`${baAPI}api/section/edit-order`, {
+    const response = await fetch(`/api/section/edit-order`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

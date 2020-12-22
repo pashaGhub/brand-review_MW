@@ -36,7 +36,7 @@ const videoFilter = (req, file, cb) => {
 const uploadImg = multer({
   storage: storage,
   limits: {
-    fileSize: 1024 * 1024 * 5,
+    fileSize: 1024 * 1024 * 15,
   },
   fileFilter: imgFilter,
 });
@@ -44,34 +44,38 @@ const uploadImg = multer({
 const uploadVideo = multer({
   storage: storage,
   limits: {
-    fileSize: 1024 * 1024 * 20,
+    fileSize: 1024 * 1024 * 100,
   },
   fileFilter: videoFilter,
 });
 
 //img routes
-router.post("/img", auth, uploadImg.single("path"), async (req, res) => {
-  try {
-    const newUpload = new Uploads({
-      _id: new Types.ObjectId(),
-      path: req.file.path,
-      owner: req.user.userId,
-    });
+router.post("/img", auth, uploadImg.array("files", 12), async (req, res) => {
+  console.log(uploadImg);
+  Promise.all(
+    req.files.map(async (file) => {
+      const newUpload = new Uploads({
+        _id: new Types.ObjectId(),
+        path: file.path,
+        owner: req.user.userId,
+      });
 
-    await newUpload.save();
-    res.status(201).json(newUpload);
-  } catch (e) {
-    res
-      .status(500)
-      .json({ message: "Something went wrong in /uploads/img", error: e });
-  }
+      return await newUpload.save();
+    })
+  )
+    .then(res.status(201).json("files successfully uploaded"))
+    .catch((e) => {
+      res
+        .status(500)
+        .json({ message: "Something went wrong in /uploads/img", error: e });
+    });
 });
 
 router.get("/img", auth, async (req, res) => {
   try {
     const getImg = await Uploads.find({ owner: req.user.userId });
     const filterImgs = await getImg.filter(
-      (img) => img.path.split(".")[1] === "png" || "jpg" || "jpeg"
+      (img) => img.path.split(".")[1] !== "mp4"
     );
 
     res.json(filterImgs);
@@ -83,7 +87,7 @@ router.get("/img", auth, async (req, res) => {
 });
 
 //video routes
-router.post("/video", auth, uploadVideo.single("path"), async (req, res) => {
+router.post("/video", auth, uploadVideo.single("file"), async (req, res) => {
   try {
     const newUpload = new Uploads({
       _id: new Types.ObjectId(),
@@ -94,13 +98,14 @@ router.post("/video", auth, uploadVideo.single("path"), async (req, res) => {
     await newUpload.save();
     res.status(201).json(newUpload);
   } catch (e) {
+    console.log(e);
     res
       .status(500)
       .json({ message: "Something went wrong in /uploads/img", error: e });
   }
 });
 
-router.get("/video", auth, async (req, res) => {
+router.get("/videos", auth, async (req, res) => {
   try {
     const getVideos = await Uploads.find({ owner: req.user.userId });
     const filterVideos = await getVideos.filter(
@@ -120,9 +125,12 @@ router.delete("/:id", auth, async (req, res) => {
   try {
     const item = await Uploads.findByIdAndDelete(req.params.id);
     fs.unlinkSync(item.path);
-    res.json("FILE DELETED!");
+    res.status(201).json({ message: "File successfully deleted!" });
   } catch (e) {
-    res.status(500).json({ message: "Something went wrong in get delete img" });
+    console.log(e);
+    res
+      .status(500)
+      .json({ message: "Something went wrong in get delete file" });
   }
 });
 
