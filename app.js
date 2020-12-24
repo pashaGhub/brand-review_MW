@@ -1,5 +1,6 @@
 const express = require("express");
 const config = require("config");
+const path = require("path");
 const mongoose = require("mongoose");
 
 const app = express();
@@ -23,6 +24,14 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/auth", require("./routes/auth.routes"));
 app.use("/api/section", require("./routes/section.routes"));
 app.use("/api/uploads", require("./routes/uploads.routes"));
+
+if (provess.env.NODE_ENV === "production") {
+  app.use("/", express.static(path.join(__dirname, "front", "build")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "front", "build", "index.html"));
+  });
+}
 
 const PORT = config.get("port") || 5000;
 
