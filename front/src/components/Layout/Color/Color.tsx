@@ -3,12 +3,11 @@ import React from "react";
 import "./Color.scss";
 interface IRail {
   image: string;
+  alt: string;
   imgText: Array<string>;
 }
 
-export const Color: React.FC<IRail> = (props) => {
-  const { image, imgText } = props;
-
+export const Color: React.FC<IRail> = ({ image, imgText, alt }) => {
   return (
     <div className="imgLayout">
       <img src={image} alt="mountains tropic" />

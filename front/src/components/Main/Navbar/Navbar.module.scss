@@ -33,9 +33,9 @@
     }
   }
 
-  // .titleActive {
-  //   border-bottom: solid 2px $dark-color;
-  // }
+  .titleActive {
+    border-bottom: solid 2px $dark-color;
+  }
 
   ul {
     list-style: none;
@@ -53,8 +53,8 @@
       font-size: larger;
     }
   }
-  // .topicActive {
-  //   opacity: 1;
-  //   font-size: larger;
-  // }
+  .topicActive {
+    opacity: 1;
+    font-size: larger;
+  }
 }

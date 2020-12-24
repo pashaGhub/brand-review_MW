@@ -8,6 +8,10 @@
     flex-wrap: wrap;
     padding: 10px 0;
 
+    @include minResponsive(1024px) {
+      justify-content: unset;
+    }
+
     .imgLayout {
       width: 45%;
       height: auto;

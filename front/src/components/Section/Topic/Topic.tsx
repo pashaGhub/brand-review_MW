@@ -12,7 +12,13 @@ import { Layout } from "../../Layout/Layout";
 
 import s from "./Topic.module.scss";
 
-export const Topic: React.FC = () => {
+interface ITopic {
+  data: any;
+}
+
+export const Topic: React.FC<ITopic> = ({ data }) => {
+  console.log("TOPIC", data);
+
   const simpleText = [
     {
       image: tropic,
@@ -77,10 +83,10 @@ export const Topic: React.FC = () => {
   ];
   return (
     <>
-      <div className={s.topic}>
+      <div className={s.topic} id={data._id}>
         <div className={s.title}>
           <div className={s.name}>
-            Invitation
+            {data.title}
             <button>
               <FontAwesomeIcon icon={faLink} />
             </button>
@@ -88,115 +94,13 @@ export const Topic: React.FC = () => {
           <span className={s.line}></span>
         </div>
 
-        <p className={s.text}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae,
-          corrupti? Illum esse dicta impedit architecto magnam dolorem ea
-          officiis adipisci doloremque quia sapiente deleniti repellat rerum,
-          dolorum commodi enim perspiciatis.
-        </p>
+        <p className={s.text}>{data.text}</p>
 
-        <Layout layout="Rail" topicImgs={simpleText} />
-      </div>
-      <div className={s.topic}>
-        <div className={s.title}>
-          <div className={s.name}>
-            Agenda
-            <button>
-              <FontAwesomeIcon icon={faLink} />
-            </button>
-          </div>
-          <span className={s.line}></span>
-        </div>
-
-        <p className={s.text}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae,
-          corrupti? Illum esse dicta impedit architecto magnam dolorem ea
-          officiis adipisci doloremque quia sapiente deleniti repellat rerum,
-          dolorum commodi enim perspiciatis.
-        </p>
-
-        <Layout layout="Window" />
-      </div>
-      <div className={s.topic}>
-        <div className={s.title}>
-          <div className={s.name}>
-            Agenda
-            <button>
-              <FontAwesomeIcon icon={faLink} />
-            </button>
-          </div>
-          <span className={s.line}></span>
-        </div>
-
-        <p className={s.text}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae,
-          corrupti? Illum esse dicta impedit architecto magnam dolorem ea
-          officiis adipisci doloremque quia sapiente deleniti repellat rerum,
-          dolorum commodi enim perspiciatis.
-        </p>
-
-        <Layout layout="Stretch" />
-      </div>
-      <div className={s.topic}>
-        <div className={s.title}>
-          <div className={s.name}>
-            Invitation
-            <button>
-              <FontAwesomeIcon icon={faLink} />
-            </button>
-          </div>
-          <span className={s.line}></span>
-        </div>
-
-        <p className={s.text}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae,
-          corrupti? Illum esse dicta impedit architecto magnam dolorem ea
-          officiis adipisci doloremque quia sapiente deleniti repellat rerum,
-          dolorum commodi enim perspiciatis.
-        </p>
-
-        <Layout layout="Color" topicImgs={color} />
-      </div>
-
-      <div className={s.topic}>
-        <div className={s.title}>
-          <div className={s.name}>
-            Video
-            <button>
-              <FontAwesomeIcon icon={faLink} />
-            </button>
-          </div>
-          <span className={s.line}></span>
-        </div>
-
-        <p className={s.text}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae,
-          corrupti? Illum esse dicta impedit architecto magnam dolorem ea
-          officiis adipisci doloremque quia sapiente deleniti repellat rerum,
-          dolorum commodi enim perspiciatis.
-        </p>
-
-        <Layout layout="Video" />
-      </div>
-      <div className={s.topic}>
-        <div className={s.title}>
-          <div className={s.name}>
-            Simple list
-            <button>
-              <FontAwesomeIcon icon={faLink} />
-            </button>
-          </div>
-          <span className={s.line}></span>
-        </div>
-
-        <p className={s.text}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae,
-          corrupti? Illum esse dicta impedit architecto magnam dolorem ea
-          officiis adipisci doloremque quia sapiente deleniti repellat rerum,
-          dolorum commodi enim perspiciatis.
-        </p>
-
-        <Layout layout="ItemsList" topicImgs={simpleList} />
+        <Layout
+          layout={data.layout}
+          topicImgs={data.topicImgs}
+          video={data.topicVideo}
+        />
       </div>
     </>
   );

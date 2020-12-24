@@ -7,4 +7,10 @@
   @include minResponsive(1024px) {
     margin-left: 1rem;
   }
+
+  .noSections {
+    text-align: center;
+    color: $ash-color;
+    font-weight: 200;
+  }
 }

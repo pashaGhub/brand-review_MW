@@ -13,7 +13,6 @@ import { useMessage } from "../../../hooks/message.hook";
 import { Button } from "../../../components/Button/Button";
 
 import s from "./Upload.module.scss";
-import Item from "antd/lib/list/Item";
 
 interface IUploadItem {
   _id: string;

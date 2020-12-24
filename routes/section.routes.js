@@ -49,12 +49,13 @@ router.post("/edit-order", auth, async (req, res) => {
   }
 });
 
-router.get("/", auth, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const sections = await Section.find({ owner: req.user.userId });
+    const sections = await Section.find();
 
     res.json(sections);
   } catch (e) {
+    console.log(e);
     res.status(500).json({ message: "Something went wrong in /" });
   }
 });

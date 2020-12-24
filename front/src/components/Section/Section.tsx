@@ -6,18 +6,24 @@ import { Topic } from "./Topic/Topic";
 
 import s from "./Section.module.scss";
 
-export const Section: React.FC = () => {
+interface ISection {
+  data: any;
+}
+
+export const Section: React.FC<ISection> = ({ data }) => {
   return (
-    <div className={s.container}>
+    <div className={s.container} id={data._id}>
       <div className={s.title}>
-        <span>Hello here!</span>
+        <span>{data.title}</span>
         <span>
           <button>
             <FontAwesomeIcon icon={faLink} />
           </button>
         </span>
       </div>
-      <Topic />
+      {data?.topics?.map((topic: any) => (
+        <Topic data={topic} key={topic.id} />
+      ))}
     </div>
   );
 };

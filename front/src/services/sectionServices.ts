@@ -3,13 +3,12 @@ interface IOrder {
   order: any;
 }
 
-export const getSections = async (token: string) => {
+export const getSections = async () => {
   try {
     const response = await fetch(`/api/section/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
     });
 

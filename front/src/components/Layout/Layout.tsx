@@ -12,54 +12,59 @@ import "./Layout.scss";
 interface ILayout {
   layout: string;
   topicImgs?: Array<Object>;
+  video?: string;
 }
 
-export const Layout: React.FC<ILayout> = (props) => {
-  const { layout, topicImgs } = props;
-
+export const Layout: React.FC<ILayout> = ({ layout, topicImgs, video }) => {
   switch (layout) {
-    case "Rail":
+    case "rail":
       return (
         <div className="content rail">
-          {topicImgs?.map((data: any, ind: number) => (
-            <Rail {...data} key={ind} />
+          {topicImgs?.map((data: any) => (
+            <Rail {...data} key={data._id} />
           ))}
         </div>
       );
-    case "Color":
+    case "color":
       return (
         <div className="color">
-          {topicImgs?.map((data: any, ind: number) => (
-            <Color {...data} key={ind} />
+          {topicImgs?.map((data: any) => (
+            <Color {...data} key={data._id} />
           ))}
         </div>
       );
-    case "Window":
+    case "window":
       return (
         <div className="content window">
-          <Window />
-        </div>
-      );
-    case "Stretch":
-      return (
-        <div className="content stretch">
-          <Stretch />
-        </div>
-      );
-    case "ItemsList":
-      return (
-        <div className="content itemsList">
-          {topicImgs?.map((data: any, ind: number) => (
-            <ItemsList {...data} key={ind} />
+          {topicImgs?.map((data: any) => (
+            <Window {...data} key={data._id} />
           ))}
         </div>
       );
-    case "Video":
-      return <VideoBox />;
+    case "stretch":
+      return (
+        <div className="content stretch">
+          {topicImgs?.map((data: any) => (
+            <Stretch {...data} key={data._id} />
+          ))}
+        </div>
+      );
+    case "itemsList":
+      return (
+        <div className="content itemsList">
+          {topicImgs?.map((data: any) => (
+            <ItemsList {...data} key={data._id} />
+          ))}
+        </div>
+      );
+    case "videoBox":
+      return <VideoBox videoSrc={video ? video : ""} />;
     default:
       return (
         <div className="content stretch">
-          <Stretch />
+          {topicImgs?.map((data: any) => (
+            <Stretch {...data} key={data._id} />
+          ))}
         </div>
       );
   }

@@ -19,13 +19,9 @@ import { isNull } from "util";
 export const MainPanel: React.FC = () => {
   const { handleLocation } = useContext(AppContext);
   const { token, logout, logoutUser } = useContext(AuthContext);
-  const {
-    editData,
-    setEditData,
-    setEdit,
-    setSectionTitle,
-    setTopics,
-  } = useContext(EditContext);
+  const { setEditData, setEdit, setSectionTitle, setTopics } = useContext(
+    EditContext
+  );
   const [sectionsList, setSectionsList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dragging, setDragging] = useState(false);
@@ -53,7 +49,7 @@ export const MainPanel: React.FC = () => {
     const fetchData = async () => {
       setLoading(true);
 
-      const data = await getSections(token);
+      const data = await getSections();
 
       if (data.status === 401) {
         logout();
@@ -172,7 +168,7 @@ export const MainPanel: React.FC = () => {
                       }
                     : isNull
                 }
-                key={sctI}
+                key={sct._id}
                 className={dragging ? getStyles(sctI) : s.section}
               >
                 {sct.title}

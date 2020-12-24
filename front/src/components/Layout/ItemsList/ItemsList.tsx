@@ -9,8 +9,12 @@ interface IItemsList {
   imgText: string;
 }
 
-export const ItemsList: React.FC<IItemsList> = (props) => {
-  const { image, alt, subtitle, imgText } = props;
+export const ItemsList: React.FC<IItemsList> = ({
+  image,
+  alt,
+  subtitle,
+  imgText,
+}) => {
   return (
     <div className="imgLayout">
       <div className="imgContainer">

@@ -1,30 +1,55 @@
 import React from "react";
+import { Link } from "react-scroll";
 
 import s from "./Navbar.module.scss";
 
-export const Navbar: React.FC = () => {
+interface INavbar {
+  data: any;
+}
+
+export const Navbar: React.FC<INavbar> = ({ data }) => {
+  console.log(data);
+
   return (
     <div className={s.container}>
       <div className={s.positionSticky}>
-        <div className={s.section}>
-          <a href="/" className={`${s.title} ${s.titleActive}`}>
-            Hello here!
-          </a>
-          <ul>
-            <li className={`${s.topic} ${s.topicActive}`}>Invitation</li>
-            <li className={s.topic}>Agenda</li>
-            <li className={s.topic}>Something else</li>
-          </ul>
-        </div>
-        <div className={s.section}>
-          <a href="/" className={s.title}>
-            Colors
-          </a>
-          <ul>
-            <li className={s.topic}>First color</li>
-            <li className={s.topic}>Second</li>
-          </ul>
-        </div>
+        {data.length &&
+          data.map((item: any) => (
+            <div key={item._id} className={s.section}>
+              <Link
+                className={s.title}
+                activeClass={s.titleActive}
+                to={item._id}
+                hashSpy={true}
+                spy={true}
+                smooth={true}
+                offset={-50}
+                duration={1000}
+                delay={100}
+              >
+                {item.title}
+              </Link>
+              <ul>
+                {item?.topics?.map((topic: any) => (
+                  <li key={topic._id}>
+                    <Link
+                      className={s.topic}
+                      activeClass={s.topicActive}
+                      to={topic._id}
+                      hashSpy={true}
+                      spy={true}
+                      smooth={true}
+                      offset={-50}
+                      duration={1000}
+                      delay={100}
+                    >
+                      {topic.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
       </div>
     </div>
   );
