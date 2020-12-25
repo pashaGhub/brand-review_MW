@@ -20,7 +20,7 @@ interface IUploadItem {
   owner: string;
 }
 
-const backUrl = "http://localhost:5000/";
+const backUrl = "http://34.89.154.153/";
 
 export const Upload: React.FC = () => {
   const {
