@@ -25,7 +25,7 @@ app.use("/api/auth", require("./routes/auth.routes"));
 app.use("/api/section", require("./routes/section.routes"));
 app.use("/api/uploads", require("./routes/uploads.routes"));
 
-if (provess.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production") {
   app.use("/", express.static(path.join(__dirname, "front", "build")));
 
   app.get("*", (req, res) => {

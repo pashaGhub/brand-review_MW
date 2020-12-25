@@ -1,6 +1,6 @@
 {
-  "port": 5000,
+  "port": 80,
   "jwtSecret": "brand page MW",
   "mongoUri": "mongodb+srv://admin:mw12345@cluster0.ehuae.azure.mongodb.net/app?retryWrites=true&w=majority",
-  "baseUrl": "http://localhost:5000"
+  "baseUrl": "http://localhost:8080"
 }
