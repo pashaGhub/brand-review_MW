@@ -27,12 +27,15 @@ export const TopicForm: React.FC<ITopicForm> = ({ item }) => {
 
   const addImage = () => {
     let newItem = item;
+
+    console.log("BEFORE", newItem);
     newItem.topicImgs?.push({
       _id: createID(),
       image: "",
       alt: "",
       imgText: "",
     });
+    console.log("AFTER", newItem);
 
     let newTopics = topics.filter((topic: ITopic) => item._id !== topic._id);
     newTopics.splice(

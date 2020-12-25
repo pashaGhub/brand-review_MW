@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useContext } from "react";
 import { getSections } from "../../services/sectionServices";
+import { AppContext } from "../../context";
 
 import { Navbar } from "./Navbar/Navbar";
 import { Board } from "./Board/Board";
@@ -7,7 +8,7 @@ import { Board } from "./Board/Board";
 import s from "./Main.module.scss";
 
 export const Main: React.FC = () => {
-  const [sections, setSections] = useState<any>([]);
+  const { sections, setSections } = useContext(AppContext);
 
   useEffect(() => {
     const fetchData = async () => {

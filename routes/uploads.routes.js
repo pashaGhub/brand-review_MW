@@ -51,7 +51,6 @@ const uploadVideo = multer({
 
 //img routes
 router.post("/img", auth, uploadImg.array("files", 12), async (req, res) => {
-  console.log(uploadImg);
   Promise.all(
     req.files.map(async (file) => {
       const newUpload = new Uploads({

@@ -49,7 +49,7 @@ export const Layout: React.FC<ILayout> = ({ layout, topicImgs, video }) => {
           ))}
         </div>
       );
-    case "itemsList":
+    case "itemList":
       return (
         <div className="content itemsList">
           {topicImgs?.map((data: any) => (

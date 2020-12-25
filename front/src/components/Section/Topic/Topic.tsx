@@ -2,12 +2,6 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
 
-import dark from "../../../assets/imgs/dark.jpg";
-import blue from "../../../assets/imgs/blue.jpg";
-import azure from "../../../assets/imgs/azure.jpg";
-import grey from "../../../assets/imgs/grey.jpg";
-import tropic from "../../../assets/imgs/tropic.jpg";
-
 import { Layout } from "../../Layout/Layout";
 
 import s from "./Topic.module.scss";
@@ -17,70 +11,6 @@ interface ITopic {
 }
 
 export const Topic: React.FC<ITopic> = ({ data }) => {
-  console.log("TOPIC", data);
-
-  const simpleText = [
-    {
-      image: tropic,
-      imgText: "some text about image",
-    },
-    {
-      image: tropic,
-      imgText:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati labore adipisci sunt suscipit sint ex aperiam? Tenetur error",
-    },
-    {
-      image: tropic,
-      imgText: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
-    },
-    {
-      image: tropic,
-      imgText: "Lorem ipsum dolor sit amet",
-    },
-  ];
-
-  const color = [
-    { image: dark, imgText: ["#333", "hex", "RGB	51 3	0", "CMYK	0	94 100 80"] },
-    { image: blue, imgText: ["#333", "hex", "RGB	51 3	0", "CMYK	0	94 100 80"] },
-    { image: azure, imgText: ["#333", "hex", "RGB	51 3	0", "CMYK	0	94 100 80"] },
-    { image: grey, imgText: ["#333", "hex", "RGB	51 3	0", "CMYK	0	94 100 80"] },
-  ];
-
-  const simpleList = [
-    {
-      image:
-        "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-      alt: "yourAlt",
-      imgText: "Something about image",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-      alt: "yourAlt",
-      imgText: "Something about image",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1547480053-7d174f67b557?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-      alt: "yourAlt",
-      subtitle: "image subtitle",
-      imgText: "Something about image",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1481481525014-91e77115eace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-      alt: "yourAlt",
-      subtitle: "image subtitle",
-      imgText: "Something about image",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1505664063603-28e48ca204eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-      alt: "yourAlt",
-      subtitle: "image subtitle",
-      imgText: "Something about image",
-    },
-  ];
   return (
     <>
       <div className={s.topic} id={data._id}>

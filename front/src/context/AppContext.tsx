@@ -3,6 +3,7 @@ import React, { createContext, useState } from "react";
 export const AppContext = createContext<any>(Boolean);
 
 export function AppContextProvider(props: any): JSX.Element {
+  const [sections, setSections] = useState<any>([]);
   const [mobNav, setMobNav] = useState<boolean>(false);
   const [location, setLocation] = useState<string>(""); //used to select right mobile navigation. 1.public 2.none 3.admin
 
@@ -32,7 +33,15 @@ export function AppContextProvider(props: any): JSX.Element {
 
   return (
     <AppContext.Provider
-      value={{ mobNav, toggleMobNav, closeMobNav, location, handleLocation }}
+      value={{
+        sections,
+        setSections,
+        mobNav,
+        toggleMobNav,
+        closeMobNav,
+        location,
+        handleLocation,
+      }}
     >
       {props.children}
     </AppContext.Provider>
