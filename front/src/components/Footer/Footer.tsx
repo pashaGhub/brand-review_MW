@@ -10,12 +10,12 @@ export const Footer: React.FC = () => {
         <p>
           Made by
           <a
-            href="https://outer.studio/"
+            href="https://github.com/pashaGhub"
             target="_blank"
             rel="noopener noreferrer"
           >
             {" "}
-            outer Studio
+            Pawel Sucharew
           </a>
         </p>
       </div>
